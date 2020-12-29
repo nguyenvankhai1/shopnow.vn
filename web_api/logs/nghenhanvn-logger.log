@@ -1,0 +1,25 @@
+2020-12-10 01:01:48,178 INFO o.s.b.StartupInfoLogger:55 [restartedMain] Starting SearchEngineApplication using Java 1.8.0_111 on XDEVS with PID 11112 (E:\Work\XTEL\BKAV_SDL\notification_services\target\classes started by Nguyen Truong in E:\Work\XTEL\BKAV_SDL\notification_services)
+2020-12-10 01:01:48,183 INFO o.s.b.SpringApplication:660 [restartedMain] No active profile set, falling back to default profiles: default
+2020-12-10 01:01:48,147 INFO o.h.v.i.u.Version:21 [background-preinit] HV000001: Hibernate Validator 6.0.10.Final
+2020-12-10 01:01:48,380 INFO o.s.b.l.DeferredLog:255 [restartedMain] The Class-Path manifest attribute in C:\Users\Nguyen Truong\.m2\repository\io\grpc\grpc-netty-shaded\1.21.0\grpc-netty-shaded-1.21.0.jar referenced one or more files that do not exist: file:/C:/Users/Nguyen%20Truong/.m2/repository/io/grpc/grpc-netty-shaded/1.21.0/grpc-core-1.21.0.jar,file:/C:/Users/Nguyen%20Truong/.m2/repository/io/grpc/grpc-netty-shaded/1.21.0/opencensus-contrib-grpc-metrics-0.21.0.jar,file:/C:/Users/Nguyen%20Truong/.m2/repository/io/grpc/grpc-netty-shaded/1.21.0/opencensus-api-0.21.0.jar,file:/C:/Users/Nguyen%20Truong/.m2/repository/io/grpc/grpc-netty-shaded/1.21.0/grpc-api-1.21.0.jar,file:/C:/Users/Nguyen%20Truong/.m2/repository/io/grpc/grpc-netty-shaded/1.21.0/gson-2.7.jar,file:/C:/Users/Nguyen%20Truong/.m2/repository/io/grpc/grpc-netty-shaded/1.21.0/annotations-4.1.1.4.jar,file:/C:/Users/Nguyen%20Truong/.m2/repository/io/grpc/grpc-netty-shaded/1.21.0/grpc-context-1.21.0.jar,file:/C:/Users/Nguyen%20Truong/.m2/repository/io/grpc/grpc-netty-shaded/1.21.0/error_prone_annotations-2.3.2.jar,file:/C:/Users/Nguyen%20Truong/.m2/repository/io/grpc/grpc-netty-shaded/1.21.0/jsr305-3.0.2.jar,file:/C:/Users/Nguyen%20Truong/.m2/repository/io/grpc/grpc-netty-shaded/1.21.0/animal-sniffer-annotations-1.17.jar,file:/C:/Users/Nguyen%20Truong/.m2/repository/io/grpc/grpc-netty-shaded/1.21.0/guava-26.0-android.jar,file:/C:/Users/Nguyen%20Truong/.m2/repository/io/grpc/grpc-netty-shaded/1.21.0/checker-compat-qual-2.5.2.jar,file:/C:/Users/Nguyen%20Truong/.m2/repository/io/grpc/grpc-netty-shaded/1.21.0/j2objc-annotations-1.1.jar
+2020-12-10 01:01:48,382 INFO o.s.b.l.DeferredLog:255 [restartedMain] Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2020-12-10 01:01:48,383 INFO o.s.b.l.DeferredLog:255 [restartedMain] For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2020-12-10 01:01:50,642 INFO o.s.b.w.e.t.TomcatWebServer:108 [restartedMain] Tomcat initialized with port(s): 8080 (http)
+2020-12-10 01:01:50,653 INFO o.a.j.l.DirectJDKLog:173 [restartedMain] Initializing ProtocolHandler ["http-nio-8080"]
+2020-12-10 01:01:50,654 INFO o.a.j.l.DirectJDKLog:173 [restartedMain] Starting service [Tomcat]
+2020-12-10 01:01:50,655 INFO o.a.j.l.DirectJDKLog:173 [restartedMain] Starting Servlet engine: [Apache Tomcat/9.0.39]
+2020-12-10 01:01:50,812 INFO o.a.j.l.DirectJDKLog:173 [restartedMain] Initializing Spring embedded WebApplicationContext
+2020-12-10 01:01:50,812 INFO o.s.b.w.s.c.ServletWebServerApplicationContext:289 [restartedMain] Root WebApplicationContext: initialization completed in 2416 ms
+2020-12-10 01:01:51,039 INFO o.s.b.w.s.DynamicRegistrationBean:110 [restartedMain] Filter customURLFilter was not registered (possibly already registered?)
+2020-12-10 01:01:51,064 DEBUG o.s.w.f.GenericFilterBean:242 [restartedMain] Filter 'logFilter' configured for use
+2020-12-10 01:01:51,084 INFO c.x.s.c.FCMInitializer:23 [restartedMain] Start init
+2020-12-10 01:01:51,164 INFO c.x.s.c.FCMInitializer:29 [restartedMain] Firebase application has been initialized
+2020-12-10 01:01:51,552 INFO o.s.s.c.ExecutorConfigurationSupport:181 [restartedMain] Initializing ExecutorService 'applicationTaskExecutor'
+2020-12-10 01:01:51,986 INFO o.s.b.d.a.OptionalLiveReloadServer:58 [restartedMain] LiveReload server is running on port 35729
+2020-12-10 01:01:51,994 INFO o.s.b.a.e.w.EndpointLinksResolver:58 [restartedMain] Exposing 2 endpoint(s) beneath base path '/actuator'
+2020-12-10 01:01:52,034 INFO o.a.j.l.DirectJDKLog:173 [restartedMain] Starting ProtocolHandler ["http-nio-8080"]
+2020-12-10 01:01:52,060 INFO o.s.b.w.e.t.TomcatWebServer:220 [restartedMain] Tomcat started on port(s): 8080 (http) with context path '/notification_service'
+2020-12-10 01:01:52,084 INFO o.s.b.StartupInfoLogger:61 [restartedMain] Started SearchEngineApplication in 5.013 seconds (JVM running for 8.326)
+2020-12-10 01:01:54,995 INFO o.a.j.l.DirectJDKLog:173 [RMI TCP Connection(5)-192.168.0.108] Initializing Spring DispatcherServlet 'dispatcherServlet'
+2020-12-10 01:01:54,996 INFO o.s.w.s.FrameworkServlet:525 [RMI TCP Connection(5)-192.168.0.108] Initializing Servlet 'dispatcherServlet'
+2020-12-10 01:01:54,999 INFO o.s.w.s.FrameworkServlet:547 [RMI TCP Connection(5)-192.168.0.108] Completed initialization in 2 ms
