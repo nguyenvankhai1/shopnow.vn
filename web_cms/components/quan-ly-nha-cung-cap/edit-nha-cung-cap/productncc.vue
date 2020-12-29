@@ -1,0 +1,1641 @@
+<template>
+  <div>
+    <div v-show="add_productncc === 1" class="product-admin">
+      <v-row class="pt-16 pr-3" style="background-color: #f4f7fe">
+        <v-col cols="12" class="py-0">
+          <v-menu :close-on-content-click="false" offset-y max-height="400">
+            <template v-slot:activator="{ on, attrs }">
+              <v-btn
+                class="mr-2 text-none"
+                style="border-radius: 4px"
+                color="#656565"
+                dark
+                depressed
+                height="40"
+                v-bind="attrs"
+                v-on="on"
+              >
+                <v-icon>mdi-pencil-box-outline</v-icon>Trường thông tin
+              </v-btn>
+            </template>
+            <v-list
+              v-for="(header, i) in headerscustom"
+              :key="`${i}-${header.text}`"
+              class="pa-0"
+              style="border-top: 1px solid #f0f0f0 !important"
+              dense
+              subheader
+            >
+              <v-list-item v-if="i !== 0 && i !== headerscustom.length - 1">
+                <v-checkbox
+                  v-model="header.checked"
+                  class="ma-0"
+                  hide-details
+                  :true-value="1"
+                  :false-value="0"
+                  :ripple="false"
+                  @change="set_headers($event, header)"
+                >
+                </v-checkbox>
+                <v-list-item-title class="mt-1">
+                  {{ header.text }}
+                </v-list-item-title>
+              </v-list-item>
+            </v-list>
+          </v-menu>
+        </v-col>
+        <v-col>
+          <v-text-field
+            v-model="sku"
+            placeholder="Tìm kiếm: Tên sản phẩm, danh mục sản phẩm"
+            prepend-inner-icon="mdi-magnify"
+            class="border-1"
+            height="40"
+            solo
+            flat
+            dense
+            hide-details
+            @keydown.enter="searchProduct"
+          >
+          </v-text-field>
+        </v-col>
+        <div class="mt-3">
+          <v-btn
+            class="mr-2 text-none white--text"
+            height="40"
+            depressed
+            color="#656565"
+            @click="open_search = true"
+          >
+            Tìm kiếm nâng cao
+          </v-btn>
+          <v-btn
+            color="#3F69B8"
+            class="mr-2 text-none white--text"
+            height="40"
+            depressed
+            :loading="loading"
+            :disabled="loading"
+            @click="export_file"
+          >
+            <img class="pr-1" src="~/assets/icon/excel.svg" />
+            Xuất excel
+            <template v-slot:loader>
+              <span>Xin chờ...</span>
+            </template>
+          </v-btn>
+          <!-- <v-btn
+            color="#47BBFF"
+            class="text-none white--text"
+            height="40"
+            depressed
+            @click="add"
+          >
+            <v-icon>mdi-plus</v-icon>
+            Thêm mới
+          </v-btn> -->
+        </div>
+      </v-row>
+      <v-data-table
+        :headers="headers"
+        :items="items"
+        :items-per-page="pageSize"
+        :header-props="{ sortIcon: 'mdi-menu-swap' }"
+        item-key="stt"
+        show-select
+        fixed-header
+        hide-default-footer
+        loading-text="Xin chờ..."
+        no-results-text="Không có kết quả phù hợp"
+        no-data-text="Không có dữ liệu"
+        class="elevation-0"
+        @update:options="onSortedChange($event)"
+      >
+        <template #top>
+          <div class="d-flex align-center pt-3 pl-6">
+            <!-- <v-btn
+              class="fs-14 text-none"
+              color="white"
+              depressed
+              :disabled="disabled"
+              @click="quest_deletes"
+            >
+              <icon-close :disabled="disabled" class="mr-2"></icon-close>
+              <div :style="`${disabled ? 'color: #CFD8DC' : 'color: black'}`">
+                Xóa
+              </div>
+            </v-btn>
+            <v-divider
+              style="max-height: 16px"
+              class="mx-2 mt-3"
+              inset
+              vertical
+            ></v-divider> -->
+            <v-btn
+              class="fs-14 text-none"
+              color="white"
+              depressed
+              :disabled="disabled"
+              @click="quest_changestatus"
+            >
+              <icon-edit
+                :disabled="disabled"
+                class="mr-2"
+                height="15"
+                width="15"
+              />
+              <div :style="`${disabled ? 'color: #CFD8DC' : 'color: black'}`">
+                Cập nhật trạng thái
+              </div>
+            </v-btn>
+            <v-divider
+              style="max-height: 16px"
+              class="mx-2 mt-3"
+              inset
+              vertical
+            />
+            <v-btn
+              class="fs-14 text-none"
+              color="white"
+              depressed
+              :disabled="disabled"
+              @click="reset_form"
+            >
+              <icon-excap :disabled="disabled" class="mr-2" />
+              <div :style="`${disabled ? 'color: #CFD8DC' : 'color: black'}`">
+                Quay lại
+              </div>
+            </v-btn>
+            <!-- <div class="flex-grow-1"></div>
+            <div class="d-flex align-center">
+              <div class="fs-16 font-weight-bold mr-10">
+                Tự động duyệt sản phẩm
+              </div>
+              <v-switch
+                v-model="auto"
+                color="#47bbff"
+                class="mt-0 mb-1"
+                :true-value="1"
+                :false-value="0"
+                inset
+                hide-details
+                @change="change_status_auto"
+              ></v-switch>
+            </div> -->
+          </div>
+        </template>
+
+        <template v-slot:[`header.data-table-select`]>
+          <div class="w-100 d-flex justify-center">
+            <v-checkbox
+              v-model="tick_all"
+              class="ma-0"
+              hide-details
+              :disabled="(items || []).length === 0"
+              :ripple="false"
+              @change="selectall"
+            >
+            </v-checkbox>
+          </div>
+        </template>
+
+        <template v-slot:[`item.data-table-select`]="{ item }">
+          <div class="w-100 d-flex justify-center">
+            <v-checkbox
+              v-model="item.checked"
+              class="ma-0"
+              hide-details
+              :true-value="1"
+              :false-value="0"
+              :ripple="false"
+              @change="set_value($event, item)"
+            >
+            </v-checkbox>
+          </div>
+        </template>
+
+        <template v-slot:[`item.sku`]="{ item }">
+          <v-chip outlined small>
+            {{ item.sku }}
+          </v-chip>
+        </template>
+
+        <template v-slot:[`item.img`]="{ item }">
+          <div class="d-flex align-center">
+            <v-lazy>
+              <v-img
+                class="ml-2"
+                :src="item.product_thumbnail_url"
+                max-width="42"
+                max-height="42"
+              ></v-img>
+            </v-lazy>
+          </div>
+        </template>
+
+        <template v-slot:[`item.approve_status`]="{ item }">
+          <v-select
+            v-model="item.approve_status"
+            :items="list_status"
+            item-color="white"
+            style="width: 150px !important"
+            class="border-2 fs-14"
+            solo
+            flat
+            dense
+            hide-details
+            @click="set_status(item.approve_status)"
+            @change="confirm_change_status(item)"
+          >
+            <template v-slot:selection="data_status">
+              <div :style="`color: ${data_status.item.color}`">
+                {{ data_status.item.text }}
+              </div>
+            </template>
+            <template v-slot:item="data_status">
+              <div
+                :style="`color: ${data_status.item.color} !important`"
+                class="fs-13"
+              >
+                {{ data_status.item.text }}
+              </div>
+            </template>
+          </v-select>
+        </template>
+
+        <template v-slot:[`item.price`]="{ item }">
+          <div
+            v-if="item.product_type !== $store.state.app.products"
+            style="white-space: nowrap"
+          >
+            {{
+              (item.from_price || []).length !== 0 &&
+              (item.to_price || []).length !== 0
+                ? `${$formatMoney({
+                    amount: item.from_price,
+                  })} - ${$formatMoney({
+                    amount: item.to_price,
+                  })}`
+                : ''
+            }}
+          </div>
+          <div v-else>
+            {{
+              (item.from_price || []).length !== 0
+                ? `${$formatMoney({ amount: item.from_price })}`
+                : ''
+            }}
+          </div>
+        </template>
+
+        <template v-slot:[`item.rate_score`]="{ item }">
+          <div class="d-flex">
+            {{
+              item.rate_score !== 0 ? parseFloat(item.rate_score).toFixed(2) : 0
+            }}
+            <img class="mb-1 ml-1" src="~/assets/icon/star.svg" />
+          </div>
+        </template>
+
+        <template v-slot:[`item.supplier`]="{ item }">
+          <div class="d-flex align-center">
+            <v-avatar class="mr-2" size="24">
+              <v-img :src="item.enterprise_image"></v-img>
+            </v-avatar>
+            {{ item.enterprise_name }}
+          </div>
+        </template>
+        <template v-slot:[`item.actions`]="{ item }">
+          <div class="d-flex">
+            <!-- <v-tooltip bottom>
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                  icon
+                  v-bind="attrs"
+                  v-on="on"
+                  @click="quest_delete(item)"
+                >
+                  <icon-delete></icon-delete>
+                </v-btn>
+              </template>
+              <span>Xóa</span>
+            </v-tooltip> -->
+
+            <v-tooltip bottom>
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn icon v-bind="attrs" v-on="on" @click="quest_copy(item)">
+                  <icon-copy></icon-copy>
+                </v-btn>
+              </template>
+              <span>Copy</span>
+            </v-tooltip>
+
+            <v-tooltip bottom>
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn icon v-bind="attrs" v-on="on" @click="edit(item)">
+                  <img src="~/assets/icon/change_color_view.svg" />
+                </v-btn>
+              </template>
+              <span>Xem</span>
+            </v-tooltip>
+          </div>
+        </template>
+      </v-data-table>
+      <pagination
+        :page-info="pageInfo"
+        :page="page"
+        :page-size="pageSize"
+        :page-count="pageCount"
+        @changePage="changePage"
+        @changePageSize="changePageSize"
+      >
+      </pagination>
+
+      <!-- xóa 1 -->
+      <yes-no-alert
+        :open="open_delete"
+        :alert-msg="alertdelete"
+        @toggle="open_delete = !open_delete"
+        @OK="confirm_delete"
+      >
+      </yes-no-alert>
+
+      <!-- xóa nhiều -->
+      <yes-no-alert
+        :open="open_deletes"
+        :alert-msg="alertdelete"
+        @toggle="open_deletes = !open_deletes"
+        @OK="confirm_deletes"
+      >
+      </yes-no-alert>
+
+      <copy
+        :open="$store.state.nha_cung_cap_san_pham.open_copy"
+        @toggle="toggle_copy"
+        @OK="copy"
+      />
+
+      <change-status
+        :open="open_change"
+        @toggle="open_change = !open_change"
+        @OK="changes_status"
+      />
+
+      <Dialog
+        :open="open_search"
+        dialog-name="Tìm kiếm nâng cao"
+        max_width="700"
+        @toggle="open_search = !open_search"
+        @actionsUser="get_list"
+      >
+        <v-row>
+          <v-col cols="6">
+            <v-text-field
+              v-model="search.sku"
+              placeholder="Nhập SKU"
+              class="border-1"
+              solo
+              flat
+              dense
+              hide-details
+              clearable
+            >
+            </v-text-field>
+          </v-col>
+          <v-col cols="6">
+            <v-text-field
+              v-model="search.name"
+              placeholder="Nhập tên sản phẩm"
+              class="border-1"
+              solo
+              flat
+              dense
+              hide-details
+              clearable
+            >
+            </v-text-field>
+          </v-col>
+          <v-col cols="6">
+            <v-select
+              v-model="search.status"
+              :items="list_status"
+              placeholder="Chọn trạng thái"
+              item-color="white"
+              class="border-1 fs-14"
+              solo
+              flat
+              dense
+              hide-details
+              clearable
+            >
+              <template v-slot:selection="data_status">
+                <div :style="`color: ${data_status.item.color}`">
+                  {{ data_status.item.text }}
+                </div>
+              </template>
+              <template v-slot:item="data_status">
+                <div
+                  :style="`color: ${data_status.item.color} !important`"
+                  class="fs-13"
+                >
+                  {{ data_status.item.text }}
+                </div>
+              </template>
+            </v-select>
+          </v-col>
+          <v-col cols="6">
+            <v-text-field
+              v-model="search.price"
+              type="number"
+              placeholder="Nhập mức giá"
+              class="border-1"
+              solo
+              flat
+              dense
+              hide-details
+              clearable
+            >
+            </v-text-field>
+          </v-col>
+          <v-col cols="6">
+            <v-autocomplete
+              v-model="search.category"
+              :items="list_category"
+              placeholder="Chọn danh mục sản phẩm"
+              class="border-1 fs-14"
+              solo
+              flat
+              dense
+              multiple
+              hide-details
+              clearable
+            >
+            </v-autocomplete>
+          </v-col>
+          <!-- <v-col cols="6">
+            <v-autocomplete
+              v-model="search.enterprice"
+              :items="list_enterprice"
+              placeholder="Chọn nhà cung cấp"
+              class="border-1 fs-14"
+              solo
+              flat
+              dense
+              hide-details
+              clearable
+            >
+            </v-autocomplete>
+          </v-col> -->
+          <v-col cols="6">
+            <v-autocomplete
+              v-model="search.type"
+              :items="list_type"
+              item-value="id"
+              item-text="name"
+              placeholder="Chọn loại sản phẩm"
+              class="border-1 fs-14"
+              solo
+              flat
+              dense
+              hide-details
+              clearable
+              @change="set_type_detail(search.type)"
+            >
+            </v-autocomplete>
+          </v-col>
+          <v-col cols="6">
+            <v-autocomplete
+              v-model="search.type_detail"
+              :items="list_type_detail"
+              item-value="id"
+              item-text="name"
+              placeholder="Chọn loại hình của sản phẩm"
+              class="border-1 fs-14"
+              solo
+              flat
+              dense
+              hide-details
+              clearable
+            >
+            </v-autocomplete>
+          </v-col>
+          <v-col cols="6">
+            <v-autocomplete
+              v-model="search.display"
+              :items="list_display"
+              placeholder="Chọn trạng thái ẩn/hiện"
+              class="border-1 fs-14"
+              solo
+              flat
+              dense
+              hide-details
+              clearable
+            >
+            </v-autocomplete>
+          </v-col>
+          <v-col cols="6">
+            <v-autocomplete
+              v-model="search.dish_type"
+              :items="list_dish_type"
+              item-value="id"
+              item-text="name"
+              placeholder="Chọn loại món ăn"
+              class="border-1 fs-14"
+              solo
+              flat
+              dense
+              hide-details
+              clearable
+            >
+            </v-autocomplete>
+          </v-col>
+          <v-col cols="6">
+            <v-autocomplete
+              v-model="search.tour_time"
+              :items="list_tour_time"
+              placeholder="Chọn loại tour"
+              class="border-1 fs-14"
+              solo
+              flat
+              dense
+              hide-details
+            >
+            </v-autocomplete>
+          </v-col>
+          <v-col cols="6">
+            <v-menu
+              v-model="menu"
+              :close-on-content-click="false"
+              transition="scale-transition"
+              offset-y
+              min-width="290px"
+            >
+              <template v-slot:activator="{ on }">
+                <v-text-field
+                  :value="
+                    !$isNullOrEmpty(search.departure_schedule)
+                      ? moment(search.departure_schedule).format('DD/MM/YYYY')
+                      : ''
+                  "
+                  label="Chọn lịch khởi hành"
+                  hide-details
+                  class="border-1 fs-14"
+                  solo
+                  dense
+                  flat
+                  readonly
+                  clearable
+                  v-on="on"
+                />
+              </template>
+              <v-date-picker
+                v-model="search.departure_schedule"
+                @input="menu = false"
+              />
+            </v-menu>
+          </v-col>
+        </v-row>
+      </Dialog>
+
+      <yes-no-alert
+        :open="open_status"
+        alert-msg="Bạn có muốn thay đổi trạng thái không?"
+        @toggle="toggle_change_status"
+        @OK="change_status"
+      />
+    </div>
+
+    <!-- <Add
+      v-if="add_product === 2"
+      :data="data"
+      :open="open_add"
+      @toggle="add_product = 1"
+      @success="get_list"
+      @backproductncc="$emit('backproductncc')"
+    /> -->
+
+    <edit-hotel
+      v-if="add_productncc === 3"
+      :data="detail"
+      @toggle="add_productncc = 1"
+      @success="get_productncc"
+      @backproductncc="$emit('backproductncc')"
+    />
+
+    <edit-restaurant
+      v-if="add_productncc === 4"
+      :data="detail"
+      @toggle="add_productncc = 1"
+      @success="get_productncc"
+      @backproductncc="$emit('backproductncc')"
+    />
+
+    <edit-tour
+      v-if="add_productncc === 5"
+      :data="detail"
+      @toggle="add_productncc = 1"
+      @success="get_productncc"
+      @backproductncc="$emit('backproductncc')"
+    />
+    <yes-no-alert
+      :open="open_confirm_productncc"
+      alert-msg="Bạn chắc chắn muốn thoát không?"
+      @toggle="open_confirm_productncc = !open_confirm_productncc"
+      @OK="backProdcutNcc"
+    />
+  </div>
+</template>
+
+<script>
+import EditHotel from '~/components/product-nha-cung-cap/edit/hotel/index'
+import EditRestaurant from '~/components/product-nha-cung-cap/edit/restaurant/index'
+import EditTour from '~/components/product-nha-cung-cap/edit/tour/index'
+// import Add from '~/components/product-nha-cung-cap/add'
+import Copy from '~/components/product-nha-cung-cap/copy'
+import ChangeStatus from '~/components/product-nha-cung-cap/changestatus'
+import Dialog from '~/components/Dialog'
+
+export default {
+  components: {
+    // Add,
+    EditHotel,
+    EditRestaurant,
+    EditTour,
+    Copy,
+    ChangeStatus,
+    Dialog,
+  },
+  props: {
+    data: {
+      type: Object,
+      required: true,
+    },
+    tab: {
+      type: Number,
+      required: true,
+    },
+  },
+  data: () => ({
+    open_confirm_productncc: false,
+    open_add: false,
+    add_productncc: 1,
+    items: [],
+    headerscustom: [
+      { checked: 1, text: 'SKU', value: 'sku', width: 80 },
+      {
+        checked: 1,
+        text: 'Ảnh sản phẩm',
+        sortable: false,
+        value: 'img',
+        width: 120,
+      },
+      {
+        checked: 1,
+        text: 'Tên sản phẩm',
+        sortable: false,
+        value: 'product_name',
+        width: 250,
+      },
+      {
+        checked: 1,
+        text: 'Trạng thái',
+        sortable: false,
+        value: 'approve_status',
+        width: 180,
+      },
+      {
+        checked: 1,
+        text: 'Mức giá VND',
+        sortable: false,
+        value: 'price',
+        width: 200,
+      },
+      {
+        checked: 1,
+        text: 'Danh mục sản phẩm',
+        sortable: false,
+        value: 'product_category_name',
+        width: 200,
+      },
+      {
+        checked: 1,
+        text: 'Đánh giá',
+        value: 'rate_score',
+        width: 130,
+      },
+      {
+        checked: 1,
+        text: 'Nhà cung cấp',
+        sortable: false,
+        value: 'supplier',
+        width: 200,
+      },
+      {
+        checked: 0,
+        text: 'Mô tả ngắn',
+        sortable: false,
+        value: '',
+        width: 150,
+      },
+      {
+        checked: 0,
+        text: 'Số điện thoại',
+        sortable: false,
+        value: '',
+        width: 150,
+      },
+      {
+        checked: 0,
+        text: 'Email',
+        sortable: false,
+        value: '',
+        width: 150,
+      },
+      {
+        checked: 0,
+        text: 'URL thân thiện cho SEO',
+        sortable: false,
+        value: 'url_seo',
+        width: 150,
+      },
+      {
+        checked: 0,
+        text: 'Loại sản phẩm',
+        sortable: false,
+        value: '',
+        width: 150,
+      },
+      {
+        checked: 0,
+        text: 'Loại hình sản phẩm',
+        sortable: false,
+        value: '',
+        width: 150,
+      },
+      {
+        checked: 0,
+        text: 'Trạng thái ẩn/hiện',
+        sortable: false,
+        value: '',
+        width: 150,
+      },
+      {
+        checked: 0,
+        text: 'Loại món ăn',
+        sortable: false,
+        value: '',
+        width: 150,
+      },
+      {
+        checked: 0,
+        text: 'Loại Tour',
+        sortable: false,
+        value: '',
+        width: 150,
+      },
+      {
+        checked: 0,
+        text: 'Hành trình',
+        sortable: false,
+        value: '',
+        width: 150,
+      },
+      {
+        checked: 0,
+        text: 'Lịch trình',
+        sortable: false,
+        value: '',
+        width: 150,
+      },
+      {
+        checked: 0,
+        text: 'khu vực',
+        sortable: false,
+        value: '',
+        width: 150,
+      },
+      {
+        checked: 1,
+        text: 'Hành động',
+        sortable: false,
+        value: 'actions',
+        width: 130,
+      },
+    ],
+    headers: [],
+    sku: null,
+    data_selected: [],
+    tick_all: false,
+    disabled: true,
+    // auto: 0,
+    setup: false,
+    page: 1,
+    pageCount: 1,
+    pageSize: 50,
+    pageInfo: {},
+    list_status: [
+      { value: 1, color: '#47BBFF', text: 'Đã duyệt' },
+      { value: 0, color: '#F5972D', text: 'Chờ phê duyệt' },
+      { value: 2, color: '#FF0F59', text: 'Từ chối' },
+    ],
+    data_row: {},
+    alertdelete: '',
+    open_delete: false,
+    alertdeletes: '',
+    open_deletes: false,
+    open_change: false,
+    open_status: false,
+    status: 0,
+    status_new: 0,
+    open_search: false,
+    search: {
+      sku: null,
+      name: null,
+      status: null,
+      price: null,
+      category: null,
+      enterprise: null,
+      type: null,
+      type_detail: null,
+      display: null,
+      dish_type: null,
+      tour_time: null,
+      departure_schedule: null,
+      // enterprice: null,
+    },
+    list_category: [],
+    // list_enterprice: [],
+    status_data: {},
+    order_by: null,
+    loading: false,
+    list_type: [],
+    list_type_detail: [],
+    list_display: [],
+    list_dish_type: [],
+    list_tour_time: [],
+    menu: false,
+  }),
+  watch: {
+    tab(value) {
+      if (value === 2) {
+        if (!this.$isServer) {
+          this.add_productncc = 1
+          this.get_list()
+          // this.get_status_auto()
+          this.set_category()
+          this.set_type_product()
+          this.set_restaurant_dish_type()
+          this.list_display = [
+            { value: 0, text: 'Ẩn' },
+            { value: 1, text: 'Hiển thị' },
+          ]
+          this.list_tour_time = [
+            { value: '', text: 'Tất cả' },
+            { value: 1, text: 'Trong ngày' },
+            { value: 2, text: '2 ngày 1 đêm' },
+            { value: 3, text: 'Khác' },
+          ]
+          this.search.tour_time = ''
+          // this.set_enterprice()
+          const arr = []
+          for (let i = 0; i < this.headerscustom.length; i++) {
+            if (this.headerscustom[i].checked === 1) {
+              arr.push({ ...this.headerscustom[i] })
+            }
+          }
+          this.headers = [...arr]
+        }
+      }
+    },
+    '$store.state.app.change_back'(value) {
+      if (
+        this.$store.state.app.pageTitle.includes(
+          'Cập nhật sản phẩm nhà cung cấp tạo'
+        )
+      ) {
+        this.open_confirm_productncc = true
+      }
+    },
+  },
+  created() {
+    if (!this.$isServer) {
+      this.add_productncc = 1
+      // this.get_list()
+      // this.get_status_auto()
+      this.set_category()
+      // this.set_enterprice()
+      const arr = []
+
+      for (let i = 0; i < this.headerscustom.length; i++) {
+        if (this.headerscustom[i].checked === 1) {
+          arr.push({ ...this.headerscustom[i] })
+        }
+      }
+      this.headers = [...arr]
+    }
+  },
+
+  methods: {
+    set_type_product() {
+      this.$store.dispatch('nha_cung_cap_san_pham/product_type').then((res) => {
+        if (!res.error) {
+          this.list_type = res.data.data
+        }
+      })
+    },
+    set_type_detail(id) {
+      if (!this.$isNullOrEmpty(id)) {
+        this.list_type_detail = []
+        if (id === 1) {
+          this.$store
+            .dispatch('nha_cung_cap_san_pham/hotel_type')
+            .then((res) => {
+              if (!res.error) {
+                this.list_type_detail = res.data.data
+              }
+            })
+        } else if (id === 2) {
+          this.$store
+            .dispatch('nha_cung_cap_san_pham/restaurant_type')
+            .then((res) => {
+              if (!res.error) {
+                this.list_type_detail = res.data.data
+              }
+            })
+        } else if (id === 3) {
+          this.$store
+            .dispatch('nha_cung_cap_san_pham/tour_type')
+            .then((res) => {
+              if (!res.error) {
+                this.list_type_detail = res.data.data
+              }
+            })
+        }
+      } else {
+        this.search.type_detail = null
+        this.list_type_detail = []
+      }
+    },
+    set_restaurant_dish_type() {
+      this.$store
+        .dispatch('nha_cung_cap_san_pham/restaurant_dish_type')
+        .then((res) => {
+          if (!res.error) {
+            this.list_dish_type = res.data.data
+          }
+        })
+    },
+    get_productncc() {
+      this.get_list()
+      this.$store.commit(
+        'app/setTitle',
+        `Sản phẩm nhà cung cấp tạo - ${this.data.producer_name}`
+      )
+    },
+    backProdcutNcc() {
+      this.$store.commit(
+        'app/setTitle',
+        `Sản phẩm nhà cung cấp tạo - ${this.data.producer_name}`
+      )
+      this.add_productncc = 1
+    },
+    searchProduct() {
+      this.page = 1
+      this.get_list()
+      this.open_search = false
+    },
+    changePage(value) {
+      this.page = value
+      this.get_list()
+    },
+    changePageSize(pageSizes) {
+      if (pageSizes !== this.itemsPerPage) {
+        this.page = 1
+        this.pageSize = pageSizes
+        this.get_list()
+      }
+    },
+    get_list() {
+      const DATA = {
+        enterprise_id: this.$store.state.nha_cung_cap.enterprise,
+        page_index: this.page,
+        page_size: this.pageSize,
+        search: (this.sku || []).length !== 0 ? this.sku.trim() : null,
+        type: this.$store.state.app.type.ncc,
+        sku:
+          (this.search.sku || '').length !== 0 ? this.search.sku.trim() : null,
+        product_name:
+          (this.search.name || '').length !== 0
+            ? this.search.name.trim()
+            : null,
+        status: !this.$isNullOrEmpty(this.search.status)
+          ? this.search.status
+          : null,
+        price: this.search.price > 0 ? this.search.price : null,
+        product_category_ids: !this.$isNullOrEmpty(this.search.category)
+          ? this.search.category.join()
+          : null,
+        enterprise_name: !this.$isNullOrEmpty(this.search.enterprice)
+          ? this.search.enterprice
+          : null,
+        order_by: this.order_by,
+      }
+
+      this.$store
+        .dispatch('nha_cung_cap_san_pham/get_list', DATA)
+        .then((res) => {
+          this.items = []
+          if (!res.error) {
+            if ((res.data.data.items || []).length !== 0) {
+              for (let i = 0; i < res.data.data.items.length; i++) {
+                res.data.data.items[i] = {
+                  ...res.data.data.items[i],
+                  stt: i + 1,
+                  checked: 0,
+                }
+                for (let j = 0; j < this.data_selected.length; j++) {
+                  if (res.data.data.items[i].id === this.data_selected[j].id) {
+                    res.data.data.items[i] = {
+                      ...res.data.data.items[i],
+                      checked: 1,
+                    }
+                  }
+                }
+              }
+
+              let count = 0
+
+              for (let i = 0; i < res.data.data.items.length; i++) {
+                if (res.data.data.items[i].checked === 1) {
+                  count += 1
+                }
+              }
+
+              if (count === res.data.data.items.length) {
+                this.tick_all = true
+              } else {
+                this.tick_all = false
+              }
+            }
+            this.items = [...res.data.data.items]
+            this.pageInfo = res.data.data.pageable
+            this.pageCount = res.data.data.pageable.total_page
+          }
+        })
+      this.open_search = false
+    },
+    onSortedChange(value) {
+      if (value.sortBy.length > 0) {
+        this.order_by =
+          value.sortBy[0] + ' ' + (value.sortDesc[0] ? 'desc' : 'asc')
+      } else {
+        this.order_by = null
+      }
+      this.get_list()
+    },
+
+    // get_status_auto() {
+    //   this.$store
+    //     .dispatch('nha_cung_cap_san_pham/auto_browse_product')
+    //     .then((res) => {
+    //       if (!res.error) {
+    //         this.auto = res.data.data[0].product_approval_status
+    //       }
+    //     })
+    // },
+    set_category() {
+      this.$store
+        .dispatch('nha_cung_cap_san_pham/hotel_category')
+        .then((res) => {
+          if (!res.error) {
+            const arr = []
+            if ((res.data.data || []).length !== 0) {
+              for (let i = 0; i < res.data.data.length; i++) {
+                arr.push({
+                  value: res.data.data[i].id,
+                  text: res.data.data[i].name,
+                })
+              }
+            }
+            this.list_category = [...arr]
+          }
+        })
+    },
+    // set_enterprice() {
+    //   this.$store
+    //     .dispatch('nha_cung_cap_san_pham/get_enterprice')
+    //     .then((res) => {
+    //       if (!res.error) {
+    //         const arr = []
+    //         if ((res.data.data || []).length !== 0) {
+    //           for (let i = 0; i < res.data.data.length; i++) {
+    //             arr.push({
+    //               value: res.data.data[i].id,
+    //               text: res.data.data[i].name,
+    //             })
+    //           }
+    //         }
+    //         this.list_enterprice = [...arr]
+    //       }
+    //     })
+    // },
+    // change_status_auto() {
+    //   this.$store
+    //     .dispatch('nha_cung_cap_san_pham/change_auto_browse_product', {
+    //       status: this.auto,
+    //     })
+    //     .then((res) => {
+    //       if (!res.error) {
+    //         this.$showSuccess(
+    //           this,
+    //           'Thay đổi trạng thái tự động duyệt sản phẩm thành công'
+    //         )
+    //       }
+    //     })
+    //     .finally(() => {
+    //       this.get_status_auto()
+    //     })
+    // },
+    reset_form() {
+      if (!this.disabled) {
+        this.tick_all = false
+        this.disabled = true
+        this.data_selected = []
+        const arr = [...this.items]
+
+        for (let i = 0; i < arr.length; i++) {
+          arr[i].checked = 0
+        }
+        this.items = [...arr]
+      }
+    },
+    set_selected_all(checked) {
+      const arr = [...this.items]
+
+      for (let i = 0; i < arr.length; i++) {
+        arr[i] = {
+          ...arr[i],
+          checked,
+        }
+
+        if (checked === 0 && this.data_selected.length > 0) {
+          const arr1 = [...this.data_selected]
+          for (let j = 0; j < this.data_selected.length; j++) {
+            if (arr[i].id === this.data_selected[j].id) {
+              arr1.splice(j, 1)
+            }
+          }
+          this.data_selected = [...arr1]
+        }
+      }
+      this.items = [...arr]
+    },
+    selectall(value) {
+      if (value) {
+        this.set_selected_all(1)
+        this.disabled = false
+
+        const arr = [...this.items]
+
+        for (let i = 0; i < arr.length; i++) {
+          if (this.data_selected.length > 0) {
+            const arr1 = [...this.data_selected]
+            for (let j = 0; j < this.data_selected.length; j++) {
+              if (arr[i].id === this.data_selected[j].id) {
+                arr1.splice(j, 1)
+              }
+            }
+            this.data_selected = [...arr1]
+          }
+        }
+
+        const arr2 = []
+
+        for (let i = 0; i < arr.length; i++) {
+          arr2.push(arr[i])
+        }
+        this.data_selected = [...arr2, ...this.data_selected]
+      } else {
+        this.set_selected_all(0)
+        this.disabled = true
+      }
+    },
+    set_value(value, item) {
+      item.checked = value
+      const arrselected = [...this.data_selected]
+
+      if (value === 1) {
+        arrselected.push(item)
+      } else {
+        for (let i = 0; i < arrselected.length; i++) {
+          if (item.id === arrselected[i].id) {
+            arrselected.splice(i, 1)
+          }
+        }
+      }
+      this.data_selected = [...arrselected]
+
+      const arr = []
+
+      for (let i = 0; i < this.items.length; i++) {
+        if (this.items[i].checked === 1) {
+          arr.push(this.items[i].checked)
+        }
+      }
+
+      if (arr.length > 0 && arr.length < this.items.length) {
+        this.disabled = false
+      } else if (arr.length === this.items.length) {
+        this.tick_all = true
+        this.disabled = false
+      } else if (arr.length === 0) {
+        this.tick_all = false
+        this.disabled = true
+      }
+    },
+    set_headers(value, item) {
+      let arr = [...this.headers]
+
+      if (value === 1) {
+        const array = []
+
+        for (let i = 0; i < this.headerscustom.length; i++) {
+          if (this.headerscustom[i].checked === 1) {
+            array.push({ ...this.headerscustom[i] })
+          }
+        }
+        arr = [...array]
+      } else {
+        for (let i = 0; i < arr.length; i++) {
+          if (arr[i].value === item.value) {
+            arr.splice(i, 1)
+          }
+        }
+      }
+
+      this.headers = [...arr]
+    },
+    set_status(status) {
+      this.status = status
+    },
+    confirm_change_status(item) {
+      this.status_data = item
+      this.status_new = item.approve_status
+      this.open_status = true
+    },
+    toggle_change_status() {
+      this.open_status = false
+
+      const arr = [...this.items]
+      for (let i = 0; i < arr.length; i++) {
+        if (
+          arr[i].id === this.status_data.id &&
+          arr[i].product_type === this.status_data.product_type
+        ) {
+          arr[i].approve_status = this.status
+        }
+      }
+      this.items = [...arr]
+    },
+    change_status() {
+      if (!this.$isNullOrEmpty(this.status_data)) {
+        const DATA = {
+          items: [
+            {
+              id: this.status_data.id,
+              product_category_id: this.status_data.product_type,
+              status: this.status_new,
+            },
+          ],
+        }
+
+        this.$store
+          .dispatch('nha_cung_cap_san_pham/change_approval_status', DATA)
+          .then((res) => {
+            if (!res.error) {
+              this.$showSuccess(this, 'Thay đổi trạng thái sản phẩm thành công')
+
+              const arr = [...this.items]
+              for (let i = 0; i < arr.length; i++) {
+                if (
+                  arr[i].id === this.status_data.id &&
+                  arr[i].product_type === this.status_data.product_type
+                ) {
+                  arr[i].approve_status = this.status_new
+                }
+              }
+              this.items = [...arr]
+            }
+          })
+          .finally(() => {
+            // this.get_list()
+          })
+      }
+    },
+    changes_status(value) {
+      const arr = []
+
+      for (let i = 0; i < this.data_selected.length; i++) {
+        arr.push({
+          id: this.data_selected[i].id,
+          product_category_id: this.data_selected[i].product_type,
+          status: value,
+        })
+      }
+
+      const DATA = { items: [...arr] }
+
+      this.$store
+        .dispatch('nha_cung_cap_san_pham/change_status', DATA)
+        .then((res) => {
+          if (!res.error) {
+            this.$showSuccess(this, 'Thay đổi trạng thái sản phẩm thành công')
+          }
+        })
+        .finally(() => {
+          this.get_list()
+          this.open_change = false
+        })
+    },
+    quest_delete(item) {
+      this.data_row = item
+      this.alertdelete =
+        'Bạn chắc chắn muốn xóa sản phẩm "' + item.product_name + '" này?'
+      this.open_delete = true
+    },
+    confirm_delete() {
+      this.$store
+        .dispatch('nha_cung_cap_san_pham/delete_product', [
+          {
+            id: this.data_row.id,
+            product_category_id: this.data_row.product_type,
+          },
+        ])
+        .then((res) => {
+          if (!res.error) {
+            this.$showSuccess(this, 'Xóa sản phẩm thành công')
+            this.get_list()
+            this.disabled = true
+          }
+        })
+    },
+    quest_deletes() {
+      if (!this.disabled) {
+        if (this.data_selected.length === 1) {
+          this.alertdelete =
+            'Bạn chắc chắn muốn xóa sản phẩm "' +
+            this.data_selected[0].product_name +
+            '" này?'
+        } else if (this.data_selected.length > 1) {
+          this.alertdelete = 'Bạn chắc chắn muốn xóa những sản phẩm này?'
+        }
+        this.open_deletes = true
+      }
+    },
+    confirm_deletes() {
+      const DATA = []
+
+      for (let i = 0; i < this.data_selected.length; i++) {
+        DATA.push({
+          id: this.data_selected[i].id,
+          product_category_id: this.data_selected[i].product_type,
+        })
+      }
+
+      this.$store
+        .dispatch('nha_cung_cap_san_pham/delete_product', DATA)
+        .then((res) => {
+          if (!res.error) {
+            this.$showSuccess(this, 'Xóa sản phẩm thành công')
+            this.get_list()
+            this.disabled = true
+          }
+        })
+        .finally(() => {
+          this.open_deletes = false
+        })
+    },
+    quest_changestatus() {
+      if (!this.disabled) {
+        this.open_change = true
+      }
+    },
+    toggle_copy() {
+      this.$store.commit('nha_cung_cap_san_pham/change_copy')
+    },
+    quest_copy(item) {
+      this.data_row = item
+      this.toggle_copy()
+    },
+    copy(name) {
+      const DATA = {
+        product_id: this.data_row.id,
+        product_type: this.data_row.product_type,
+        product_name: name,
+      }
+      this.$store
+        .dispatch('nha_cung_cap_san_pham/copy_product', DATA)
+        .then((res) => {
+          if (!res.error) {
+            this.$showSuccess(this, 'Nhân bản sản phẩm thành công')
+            this.get_list()
+          }
+        })
+        .finally(() => {
+          this.toggle_copy()
+        })
+    },
+    export_file() {
+      this.loading = true
+      const DATA = {
+        enterprise_id: this.$store.state.nha_cung_cap.enterprise,
+        type: this.$store.state.app.type.ncc, // sản phẩm do ncc tạo
+        search: (this.sku || []).length !== 0 ? this.sku.trim() : null,
+        sku:
+          (this.search.sku || '').length !== 0 ? this.search.sku.trim() : null,
+        product_name:
+          (this.search.name || '').length !== 0
+            ? this.search.name.trim()
+            : null,
+        status: !this.$isNullOrEmpty(this.search.status)
+          ? this.search.status
+          : null,
+        price: this.search.price > 0 ? this.search.price : null,
+        product_category_ids: !this.$isNullOrEmpty(this.search.category)
+          ? this.search.category.join()
+          : null,
+      }
+      this.$store
+        .dispatch('nha_cung_cap_san_pham/export_file', DATA)
+        .then((res) => {
+          if (!res.error) {
+            // this.$log.debug(res, ' :data')
+            window.location.href = res.data.data
+          }
+        })
+        .finally(() => {
+          this.loading = false
+        })
+      // if (this.data_selected.length === 0) {
+      //   const DATA = {
+      //     type: this.$store.state.app.type.ncc, // sản phẩm do ncc tạo
+      //     export_type: 0, // xuất tất
+      //     search: (this.sku || []).length !== 0 ? this.sku.trim() : null,
+      //     sku:
+      //       (this.search.sku || '').length !== 0
+      //         ? this.search.sku.trim()
+      //         : null,
+      //     product_name:
+      //       (this.search.name || '').length !== 0
+      //         ? this.search.name.trim()
+      //         : null,
+      //     status: !this.$isNullOrEmpty(this.search.status)
+      //       ? this.search.status
+      //       : null,
+      //     price: this.search.price > 0 ? this.search.price : null,
+      //     product_category_ids: !this.$isNullOrEmpty(this.search.category)
+      //       ? this.search.category.join()
+      //       : null,
+      //     enterprise_id: !this.$isNullOrEmpty(this.search.enterprice)
+      //       ? this.search.enterprice
+      //       : null,
+      //   }
+      //   this.$store
+      //     .dispatch('product/export_file', DATA)
+      //     .then((res) => {
+      //       if (!res.error) {
+      //         // this.$log.debug(res, ' :data')
+      //         window.location.href = res.data.data
+      //       }
+      //     })
+      //     .finally(() => {
+      //       this.loading = false
+      //     })
+      // } else {
+      //   const hotelIds = []
+      //   const restaurantIds = []
+      //   const tourIds = []
+      //
+      //   for (let i = 0; i < this.data_selected.length; i++) {
+      //     if (this.data_selected[i].product_type === 1) {
+      //       hotelIds.push(this.data_selected[i].id)
+      //     } else if (this.data_selected[i].product_type === 2) {
+      //       restaurantIds.push(this.data_selected[i].id)
+      //     } else if (this.data_selected[i].product_type === 3) {
+      //       tourIds.push(this.data_selected[i].id)
+      //     }
+      //   }
+      //
+      //   const DATA = {
+      //     type: this.$store.state.app.type.ncc, // sản phẩm do ncc tạo
+      //     export_type: 1, // xuất theo selected
+      //     search: (this.sku || []).length !== 0 ? this.sku.trim() : null,
+      //     sku:
+      //       (this.search.sku || '').length !== 0
+      //         ? this.search.sku.trim()
+      //         : null,
+      //     product_name:
+      //       (this.search.name || '').length !== 0
+      //         ? this.search.name.trim()
+      //         : null,
+      //     status: !this.$isNullOrEmpty(this.search.status)
+      //       ? this.search.status
+      //       : null,
+      //     price: this.search.price > 0 ? this.search.price : null,
+      //     product_category_ids: !this.$isNullOrEmpty(this.search.category)
+      //       ? this.search.category.join()
+      //       : null,
+      //     enterprise_id: !this.$isNullOrEmpty(this.search.enterprice)
+      //       ? this.search.enterprice
+      //       : null,
+      //     hotel_ids: hotelIds.join(),
+      //     restaurant_ids: restaurantIds.join(),
+      //     tour_ids: tourIds.join(),
+      //   }
+      //   this.$store
+      //     .dispatch('product/export_file', DATA)
+      //     .then((res) => {
+      //       if (!res.error) {
+      //         // this.$log.debug(res, ' :data')
+      //         window.location.href = res.data.data
+      //       }
+      //     })
+      //     .finally(() => {
+      //       this.loading = false
+      //     })
+      // }
+    },
+    // add() {
+    //   this.$emit('click')
+    //   this.add_product = 2
+    //   this.open_add = true
+    //   this.$emit('addProductNcc')
+    //   this.$emit('add')
+    // },
+    edit(item) {
+      this.$emit('click')
+      this.data_row = item
+      // this.$emit('updateproductncc', item)
+      if (item.product_type === 1) {
+        // sửa sản phẩm khách sạn
+        this.$store
+          .dispatch('nha_cung_cap_san_pham/hotel_detail', item.id)
+          .then((res) => {
+            if (!res.error) {
+              this.detail = res.data.data
+              this.add_productncc = 3
+              this.$store.commit(
+                'app/setTitle',
+                `Cập nhật sản phẩm nhà cung cấp tạo - #${item.sku}`
+              )
+            }
+          })
+      } else if (item.product_type === 2) {
+        // sửa sản phẩm nhà hàng
+        this.$store
+          .dispatch('nha_cung_cap_san_pham/restaurant_detail', item.id)
+          .then((res) => {
+            if (!res.error) {
+              this.detail = res.data.data
+              this.add_productncc = 4
+              this.$store.commit(
+                'app/setTitle',
+                `Cập nhật sản phẩm nhà cung cấp tạo - #${item.sku}`
+              )
+            }
+          })
+      } else if (item.product_type === 3) {
+        // sửa sản phẩm tour
+        this.$store
+          .dispatch('nha_cung_cap_san_pham/tour_detail', item.id)
+          .then((res) => {
+            if (!res.error) {
+              this.detail = res.data.data
+              this.add_productncc = 5
+              this.$store.commit(
+                'app/setTitle',
+                `Cập nhật sản phẩm nhà cung cấp tạo - #${item.sku}`
+              )
+            }
+          })
+      }
+    },
+  },
+}
+</script>
+
+<style lang="scss">
+.product-admin {
+  .v-data-table--fixed-header .v-data-table__wrapper {
+    max-height: calc(100vh - 360px) !important;
+  }
+
+  .cp {
+    cursor: pointer;
+  }
+  .theme--light.v-btn.v-btn--disabled:not(.v-btn--flat):not(.v-btn--text):not(.v-btn--outlined) {
+    background-color: white !important;
+    color: black !important;
+  }
+}
+</style>
