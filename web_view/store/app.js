@@ -23,18 +23,18 @@ export const actions = {
   async GetRole(vueContext, payload) {
     this.$getRoleByUser(payload).then(response => {
       // console.log(response.data)
-      let errorCode = response.data.error.code
-      if (errorCode === APIs.responses.OK.code) {
-        vueContext.commit('setRole', response.data.data.lsPageInfos)
-      } else if (APIs.responses[errorCode] != undefined) {
-        this.$showError(this.$router.app, APIs.responses[errorCode].message)
-      } else {
-        let errorMsg = response.data.error.message
-        this.$showError(
-          this.$router.app,
-          'Đã xảy ra lỗi khi lấy thông tin quyền truy cập. ' + errorMsg
-        )
-      }
+      // let errorCode = response.data.error.code
+      // if (errorCode === APIs.responses.OK.code) {
+      //   vueContext.commit('setRole', response.data.data.lsPageInfos)
+      // } else if (APIs.responses[errorCode] != undefined) {
+      //   this.$showError(this.$router.app, APIs.responses[errorCode].message)
+      // } else {
+      //   let errorMsg = response.data.error.message
+      //   this.$showError(
+      //     this.$router.app,
+      //     'Đã xảy ra lỗi khi lấy thông tin quyền truy cập. ' + errorMsg
+      //   )
+      // }
     })
   }
 }

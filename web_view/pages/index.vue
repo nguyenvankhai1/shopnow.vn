@@ -3,25 +3,16 @@
     <v-card class="w-100">
       <v-card-text :class="breakPoint === 'mobile' && 'font-size-10px'">
         <div class="chart-container">
-          <client-only>
+          <!-- <client-only>
             <apexchart
               width="100%"
               height="400px"
               :options="chartOptions"
               :series="series"
             ></apexchart>
-          </client-only>
-          <!-- <apexchart
-            type="bar"
-            width="100%"
-            height="550px"
-            :options="chartOptions"
-            :series="series"
-          ></apexchart>
-          -->
+          </client-only> -->
         </div>
       </v-card-text>
-      <!--			<v-img src="https://icdn.dantri.com.vn/thumb_w/640/bec8d07d8d/2018/03/17/img20180317104546410-1b710.jpg"/>-->
     </v-card>
   </v-layout>
 </template>

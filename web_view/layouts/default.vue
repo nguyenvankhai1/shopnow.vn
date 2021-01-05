@@ -8,79 +8,63 @@
         :max="5"
       />
     </client-only>
-    <v-navigation-drawer
-      v-model="drawer"
-      :clipped="clipped"
-      fixed
-      width="300px"
-      app
-      light
-      style="padding-bottom: 54px"
-      class="denser-nav"
-    >
-      <v-list nav dense expand class="disabled-active">
-        <template v-for="(item, index) in topmenu">
-          <v-list-group
-            :key="index"
-            :value="true"
-            no-action
-            v-if="getMenuByParent(item.id).length > 0"
-          >
-            <template v-slot:activator>
-              <v-list-item-icon>
-                <v-icon v-text="item.page_icon"></v-icon>
-              </v-list-item-icon>
-              <v-list-item-content>
-                <v-list-item-title>{{ item.page_name }}</v-list-item-title>
-              </v-list-item-content>
-            </template>
 
-            <v-list-item
-              v-for="(child1, i) in getMenuByParent(item.id)"
-              :key="i"
-              :to="child1.page_url"
-              router
+    <v-app-bar :clipped-left="clipped" fixed app light class="border-bot-mbf ">
+      <v-container class="py-0">
+        <v-row>
+          <v-col cols="6" class="pt-0" style="margin-top: -9px;">
+            <a href="">Kênh Người Bán</a>
+            | <a href="">Tải ứng dụng</a> | <a href="">Kết nối</a>
+            <v-icon color="white" size="17" class="pb-1"> mdi-facebook </v-icon>
+            <v-icon color="white" size="17" class="pb-1"> mdi-camera </v-icon>
+          </v-col>
+          <v-col cols="6" align="end" class="pt-0" style="margin-top: -9px;">
+            <v-icon color="white" size="17" class="pb-1">
+              mdi-bell-outline
+            </v-icon>
+            <a href="" class="pr-4">Thông báo</a>
+            <v-icon color="white" size="17" class="pb-1">
+              mdi-help-circle-outline
+            </v-icon>
+            <a href="" class="pr-4">Trợ giúp</a>
+            <a href="">Đăng Ký</a> |
+            <a href="">Đăng nhập</a>
+          </v-col>
+          <v-col cols="2" class="py-0">
+            <img src="fashion_trang.png" width="140" />
+          </v-col>
+          <v-col cols="10" class="pb-0">
+            <v-text-field
+              append-icon="mdi-magnify"
+              label="Tìm sản phẩm , thương hiệu và tên shop"
+              solo
+              hide-details
+              flat
+              dense
             >
-              <v-list-item-icon>
-                <v-icon v-text="child1.page_icon"></v-icon>
-              </v-list-item-icon>
-              <v-list-item-title
-                class="pt-1"
-                v-text="child1.page_name"
-              ></v-list-item-title>
-            </v-list-item>
-          </v-list-group>
-          <v-list-item
-            v-else
-            :key="index"
-            :to="item.page_url"
-            router
-            active-class="primary--text"
-          >
-            <v-list-item-icon>
-              <v-icon v-text="item.page_icon"></v-icon>
-            </v-list-item-icon>
-            <v-list-item-title v-text="item.page_name"></v-list-item-title>
-          </v-list-item>
-        </template>
-      </v-list>
-    </v-navigation-drawer>
-    <v-app-bar :clipped-left="clipped" fixed app light class="border-bot-mbf">
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
-      <v-toolbar-title class="align-center d-flex">
-        <img src="/logo/logo.png" width="180" />
-      </v-toolbar-title>
-      <v-spacer></v-spacer>
-      <v-btn icon @click.stop="rightDrawer = !rightDrawer">
-        <v-icon color="primary" size="40">mdi-account-circle</v-icon>
-      </v-btn>
+            </v-text-field>
+            <div class="list-sp">
+              <a href="" class="pr-3">Hoodie Name</a>
+              <a href="" class="pr-3">Sandal Nữ</a>
+              <a href="" class="pr-3">Dép Nam</a>
+              <a href="" class="pr-3">Balo Nữ</a>
+              <a href="" class="pr-3">Áo Nữ</a>
+              <a href="" class="pr-3">Quần Nam</a>
+              <a href="" class="pr-3">Tất Nữ</a>
+              <a href="">Váy Trắng</a>
+            </div>
+          </v-col>
+        </v-row>
+      </v-container>
+
+      <!-- <v-spacer></v-spacer> -->
     </v-app-bar>
     <v-main>
       <v-container fluid>
         <nuxt />
       </v-container>
     </v-main>
-    <v-navigation-drawer v-model="rightDrawer" :right="right" temporary fixed>
+    <!-- <v-navigation-drawer v-model="rightDrawer" :right="right" temporary fixed>
       <template v-slot:prepend>
         <v-list-item two-line>
           <v-list-item-avatar>
@@ -112,17 +96,6 @@
             <v-list-item-title>{{ accountMenuItem.title }}</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-
-        <!-- <v-list-item @click="toggleChangePass" color="primary">
-          <v-list-item-icon>
-            <v-icon>mdi-lock</v-icon>
-          </v-list-item-icon>
-
-          <v-list-item-content>
-            <v-list-item-title>Đổi mật khẩu</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>-->
-
         <v-list-item @click="logout" color="primary">
           <v-list-item-icon>
             <v-icon>mdi-logout</v-icon>
@@ -133,14 +106,13 @@
           </v-list-item-content>
         </v-list-item>
       </v-list>
-    </v-navigation-drawer>
+    </v-navigation-drawer> -->
   </v-app>
 </template>
 
 <script>
 import '~/assets/table.scss'
-// import logoPNG from '@/assets/logo/logo.png'
-// import watermark from '~/assets/logo/logo_xam.png'
+
 import Cookies from 'js-cookie'
 import ULT from '~/plugins/ult'
 import APIs from '~/assets/configurations/API_Config'
@@ -148,9 +120,7 @@ import APIs from '~/assets/configurations/API_Config'
 export default {
   middleware: 'auth',
 
-  created() {
-    // this.$vuetify.theme.dark = false
-  },
+  created() {},
   mounted() {
     if (!this.$isServer) {
       if (!this.$store.state.app.getRoles) {
@@ -161,24 +131,11 @@ export default {
   },
   data() {
     return {
-      // logo: logoPNG,
       clipped: true,
       drawer: true,
       fixed: false,
-      // watermark,
 
-      accountMenuItems: [
-        // {
-        //   icon: 'mdi-account',
-        //   title: 'My Account',
-        //   to: '/account'
-        // }
-        // {
-        //   icon: 'mdi-logout',
-        //   title: 'Logout',
-        //   to: '/login'
-        // }
-      ],
+      accountMenuItems: [],
       miniVariant: false,
       right: true,
       rightDrawer: false,
@@ -375,9 +332,21 @@ export default {
   padding-left: 6px;
 }
 
-// .border-bot-mbf .v-toolbar__content {
-//   border-bottom: solid 5px #0063af;
-// }
+.border-bot-mbf .v-toolbar__content {
+  background-color: #fc5a31;
+  height: 127px !important;
+  color: white;
+  a {
+    color: white;
+    font-size: 15px;
+    text-decoration: none;
+  }
+  .list-sp {
+    a {
+      font-size: 12px;
+    }
+  }
+}
 
 .v-list-item--active {
   background-color: white;

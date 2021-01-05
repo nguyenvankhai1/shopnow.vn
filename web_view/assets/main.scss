@@ -50,7 +50,10 @@ html {
 .vue-notification {
   cursor: pointer;
 }
-
+.container {
+  margin-left: 328px !important;
+  margin-right: 328px !important;
+}
 .vue-notification-group {
   margin-top: 4px;
 }
@@ -90,11 +93,18 @@ html {
   border-bottom: 1px solid rgba(0, 0, 0, 0.12);
 }
 
-.custom_header_table table .v-data-table__progress th .v-progress-linear__background {
+.custom_header_table
+  table
+  .v-data-table__progress
+  th
+  .v-progress-linear__background {
   background-color: white !important;
 }
 
-.custom_header_table table .v-data-table__progress .v-progress-linear__indeterminate {
+.custom_header_table
+  table
+  .v-data-table__progress
+  .v-progress-linear__indeterminate {
   background-color: #ff9800 !important;
   border-color: #ff9800 !important;
 }
@@ -129,7 +139,11 @@ html {
 }
 
 .denser-nav {
-  .v-list--dense.v-list--nav .v-list-group--no-action>.v-list-group__items>div>.v-list-item {
+  .v-list--dense.v-list--nav
+    .v-list-group--no-action
+    > .v-list-group__items
+    > div
+    > .v-list-item {
     padding-left: 39px !important;
   }
 
