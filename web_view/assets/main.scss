@@ -50,10 +50,6 @@ html {
 .vue-notification {
   cursor: pointer;
 }
-.container {
-  margin-left: 328px !important;
-  margin-right: 328px !important;
-}
 .vue-notification-group {
   margin-top: 4px;
 }
@@ -65,7 +61,13 @@ html {
     }
   }
 }
-
+main.v-main {
+  padding: 127px 0px 0px !important;
+}
+header.border-bot-mbf.v-sheet.theme--light.v-toolbar.v-app-bar.v-app-bar--clipped.v-app-bar--fixed {
+  z-index: 8 !important;
+  height: 127px !important;
+}
 /*Header Table*/
 
 .custom_header_table table .v-data-table-header tr th {

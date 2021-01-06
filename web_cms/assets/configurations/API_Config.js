@@ -173,7 +173,7 @@ const APIs = {
   },
   // http://222.252.16.140:10000/api/cms/account/get_role_by_user?transid=xxx&channel=cms
   getRoleByUser: {
-    url: '/account/get_role_by_user',
+    url: '/shopnow/enduser/customer/login',
     method: 'GET',
     responses: {},
   },

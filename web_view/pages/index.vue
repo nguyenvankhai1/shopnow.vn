@@ -1,166 +1,183 @@
 <template>
-  <v-layout column justify-center align-center>
-    <v-card class="w-100">
-      <v-card-text :class="breakPoint === 'mobile' && 'font-size-10px'">
-        <div class="chart-container">
-          <!-- <client-only>
-            <apexchart
-              width="100%"
-              height="400px"
-              :options="chartOptions"
-              :series="series"
-            ></apexchart>
-          </client-only> -->
+  <div>
+    <v-row>
+      <v-col cols="2">
+        <div class="font-weight-bold">
+          BỘ LỌC TÌM KIẾM
         </div>
-      </v-card-text>
-    </v-card>
-  </v-layout>
+        <div v-for="(item, idx) in items" :key="idx" class="body-2">
+          <div class="pt-3">
+            {{ item.name }}
+          </div>
+          <div
+            v-for="(checkbox, index) in item.value"
+            :key="index"
+            class="checkboxCategory"
+          >
+            <!-- :style="item.add ? 'display: none' : ''" -->
+            <v-checkbox
+              v-model="checkbox.valueCategory"
+              :label="checkbox.nameCategory"
+              hide-details
+              small
+            ></v-checkbox>
+          </div>
+          <div class="pt-4">
+            <v-divider></v-divider>
+          </div>
+        </div>
+        <div>
+          <div class="pt-3">
+            Đánh Giá
+          </div>
+          <div class="d-flex">
+            <v-rating
+              :value="5"
+              class="ratinga"
+              background-color="orange lighten-3"
+              color="orange"
+              small
+            ></v-rating>
+            <div class="body-2 pt-1">trở lên</div>
+          </div>
+          <div class="d-flex">
+            <v-rating
+              :value="4"
+              class="ratinga"
+              background-color="orange lighten-3"
+              color="orange"
+              small
+            ></v-rating>
+            <div class="body-2 pt-1">trở lên</div>
+          </div>
+          <div class="d-flex">
+            <v-rating
+              :value="3"
+              class="ratinga"
+              background-color="orange lighten-3"
+              color="orange"
+              small
+            ></v-rating>
+            <div class="body-2 pt-1">trở lên</div>
+          </div>
+          <div class="d-flex">
+            <v-rating
+              :value="2"
+              class="ratinga"
+              background-color="orange lighten-3"
+              color="orange"
+              small
+            ></v-rating>
+            <div class="body-2 pt-1">trở lên</div>
+          </div>
+          <div class="d-flex">
+            <v-rating
+              :value="1"
+              class="ratinga"
+              background-color="orange lighten-3"
+              color="orange"
+              small
+            ></v-rating>
+            <div class="body-2 pt-1">trở lên</div>
+          </div>
+        </div>
+      </v-col>
+    </v-row>
+  </div>
 </template>
 
 <script>
 import Cookies from 'js-cookie'
 export default {
-  transition(to, from) {
-    if (!from) {
-      return 'slide-x-transition'
-    }
-    return 'slide-x-reverse-transition'
-  },
   data() {
     return {
-      chartOptions: {
-        chart: {
-          toolbar: {
-            show: false,
-            tools: {
-              download: false,
-              selection: false,
-              zoom: false,
-              zoomin: false,
-              zoomout: false,
-              pan: false,
-              reset: false | '<img src="/static/icons/reset.png" width="20">',
-              customIcons: []
+      items: [
+        {
+          add: false,
+          name: 'Theo Danh Mục',
+          value: [
+            {
+              valueCategory: true,
+              nameCategory: 'Áo nỉ(80k+)'
             },
-            autoSelected: 'zoom'
-          }
-        },
-        stroke: {
-          width: 2
-        },
-
-        maintainAspectRatio: false,
-        legend: { display: false },
-        scales: {
-          xAxes: [
             {
-              display: false,
-              scaleLabel: {
-                display: false,
-                labelString: 'Date'
-              }
-            }
-          ],
-          yAxes: [
+              valueCategory: true,
+              nameCategory: 'Áo khoác nỉ(80k+)'
+            },
             {
-              stacked: false,
-              display: true,
-              scaleLabel: {
-                display: false,
-                labelString: 'Price'
-              },
-              ticks: {
-                beginAtZero: false,
-                reverse: false
-              }
+              valueCategory: true,
+              nameCategory: 'Thời Trang Nữ(80k+)'
+            },
+            {
+              valueCategory: true,
+              nameCategory: 'Áo nỉ(80k+)'
+            },
+            {
+              valueCategory: true,
+              nameCategory: 'Áo nỉ(80k+)'
+            },
+            {
+              valueCategory: true,
+              nameCategory: 'Áo nỉ(80k+)'
+            },
+            {
+              valueCategory: true,
+              nameCategory: 'Áo nỉ(80k+)'
+            },
+            {
+              valueCategory: true,
+              nameCategory: 'Áo nỉ(80k+)'
             }
           ]
         },
-
-        // grid: {
-        //   show: true,
-        //   strokeDashArray: 0,
-        //   xaxis: {
-        //     lines: {
-        //       show: true
-        //     }
-        //   }
-        // },
-
-        // dropShadow: {
-        //   enabled: true,
-        //   opacity: 0.3,
-        //   blur: 5,
-        //   left: -7,
-        //   top: 22
-        // },
-
-        xaxis: {
-          categories: [
-            '05/02/2020 ',
-            '06/02/2020 ',
-            '07/02/2020 ',
-            '08/02/2020 ',
-            '09/02/2020 ',
-            '10/02/2020 ',
-            '11/02/2020 '
+        {
+          add: false,
+          name: 'Nơi Bán',
+          value: [
+            {
+              valueCategory: true,
+              nameCategory: 'Áo nỉ(80k+)'
+            },
+            {
+              valueCategory: true,
+              nameCategory: 'Áo nỉ(80k+)'
+            },
+            {
+              valueCategory: true,
+              nameCategory: 'Áo nỉ(80k+)'
+            },
+            {
+              valueCategory: true,
+              nameCategory: 'Áo nỉ(80k+)'
+            }
           ]
-        },
-
-        colors: ['#17ead9', '#f02fc2', '#FCCF31'],
-        noData: {
-          text: 'Loading...'
-        },
-        markers: {
-          size: 3,
-          colors: ['#000000'],
-          strokeColors: '#fff',
-          strokeWidth: 2,
-          hover: {
-            size: 4
-          }
-        }
-      },
-      series: [
-        {
-          name: 'Zing',
-          data: [30, 40, 45, 50, 51, 60, 200]
-        },
-        {
-          name: 'VTC',
-          data: [20, 30, 35, 40, 41, 50, 60]
-        },
-        {
-          name: 'Garena',
-          data: [10, 20, 25, 30, 31, 40, 50]
         }
       ]
     }
   },
 
-  computed: {
-    breakPoint() {
-      switch (this.$vuetify.breakpoint.name) {
-        case 'xs':
-          return 'mobile'
-        case 'sm':
-          return 'desktop'
-        case 'md':
-          return 'desktop'
-        case 'lg':
-          return 'desktop'
-        case 'xl':
-          return 'desktop'
-      }
-    }
-  },
+  computed: {},
 
   methods: {}
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .chart-container {
   width: 100%;
+}
+.checkboxCategory {
+  label {
+    color: black !important;
+  }
+}
+
+.v-input--selection-controls__ripple {
+  display: none !important;
+}
+.ratinga {
+  button {
+    padding: 2px !important;
+  }
 }
 </style>

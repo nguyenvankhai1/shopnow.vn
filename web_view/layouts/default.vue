@@ -9,8 +9,15 @@
       />
     </client-only>
 
-    <v-app-bar :clipped-left="clipped" fixed app light class="border-bot-mbf ">
-      <v-container class="py-0">
+    <v-app-bar
+      :clipped-left="clipped"
+      flat
+      fixed
+      app
+      light
+      class="border-bot-mbf "
+    >
+      <v-container class="py-0" style="width: 1200px;">
         <v-row>
           <v-col cols="6" class="pt-0" style="margin-top: -9px;">
             <a href="">Kênh Người Bán</a>
@@ -28,12 +35,12 @@
             </v-icon>
             <a href="" class="pr-4">Trợ giúp</a>
             <a href="">Đăng Ký</a> |
-            <a href="">Đăng nhập</a>
+            <span @click="logIn">Đăng nhập</span>
           </v-col>
           <v-col cols="2" class="py-0">
             <img src="fashion_trang.png" width="140" />
           </v-col>
-          <v-col cols="10" class="pb-0">
+          <v-col cols="8" class="pb-0">
             <v-text-field
               append-icon="mdi-magnify"
               label="Tìm sản phẩm , thương hiệu và tên shop"
@@ -54,59 +61,19 @@
               <a href="">Váy Trắng</a>
             </div>
           </v-col>
+          <v-col cols="2">
+            <v-icon color="white" size="35" class="pb-1">
+              mdi-cart-variant
+            </v-icon></v-col
+          >
         </v-row>
       </v-container>
-
-      <!-- <v-spacer></v-spacer> -->
     </v-app-bar>
     <v-main>
-      <v-container fluid>
+      <v-container style="width: 1200px;">
         <nuxt />
       </v-container>
     </v-main>
-    <!-- <v-navigation-drawer v-model="rightDrawer" :right="right" temporary fixed>
-      <template v-slot:prepend>
-        <v-list-item two-line>
-          <v-list-item-avatar>
-            <v-icon color="primary" size="40">mdi-account-circle</v-icon>
-          </v-list-item-avatar>
-
-          <v-list-item-content>
-            <v-list-item-title>{{ username }}</v-list-item-title>
-            <v-list-item-subtitle>Đã đăng nhập</v-list-item-subtitle>
-          </v-list-item-content>
-        </v-list-item>
-      </template>
-
-      <v-divider></v-divider>
-
-      <v-list dense nav>
-        <v-list-item
-          v-for="accountMenuItem in accountMenuItems"
-          :key="accountMenuItem.title"
-          router
-          :to="accountMenuItem.to"
-          color="primary"
-        >
-          <v-list-item-icon>
-            <v-icon>{{ accountMenuItem.icon }}</v-icon>
-          </v-list-item-icon>
-
-          <v-list-item-content>
-            <v-list-item-title>{{ accountMenuItem.title }}</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-        <v-list-item @click="logout" color="primary">
-          <v-list-item-icon>
-            <v-icon>mdi-logout</v-icon>
-          </v-list-item-icon>
-
-          <v-list-item-content>
-            <v-list-item-title>Đăng xuất</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-      </v-list>
-    </v-navigation-drawer> -->
   </v-app>
 </template>
 
@@ -174,14 +141,14 @@ export default {
     }
   },
   methods: {
-    logout() {
-      Object.keys(Cookies.get()).forEach(function(cookieName) {
-        var neededAttributes = {
-          // Here you pass the same attributes that were used when the cookie was created
-          // and are required when removing the cookie
-        }
-        Cookies.remove(cookieName, neededAttributes)
-      })
+    logIn() {
+      // Object.keys(Cookies.get()).forEach(function(cookieName) {
+      //   var neededAttributes = {
+      //     // Here you pass the same attributes that were used when the cookie was created
+      //     // and are required when removing the cookie
+      //   }
+      //   Cookies.remove(cookieName, neededAttributes)
+      // })
       this.$router.push('/login')
     },
     getMenuByParent(parent_id) {
@@ -338,8 +305,13 @@ export default {
   color: white;
   a {
     color: white;
-    font-size: 15px;
+    font-size: 13px;
     text-decoration: none;
+  }
+  span {
+    color: white;
+    font-size: 13px;
+    cursor: pointer;
   }
   .list-sp {
     a {

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="login">
     <v-row>
       <v-col cols="6" align="center">
         <div>
@@ -31,65 +31,64 @@
               <v-card flat class="mt-12">
                 <v-row>
                   <v-col class="px-12">
-                    <v-container class=" pt-3">
-                      <form @submit.prevent="submit">
-                        <v-card-text class="headline py-3 pl-0"
-                          >Đăng nhập</v-card-text
+                    <form @submit.prevent="submit">
+                      <v-card-text class="headline py-3 pl-0"
+                        >Đăng nhập</v-card-text
+                      >
+                      <v-text-field
+                        outlined
+                        dense
+                        v-model="username"
+                        :error-messages="$store.state.login.username.errors"
+                        label="Email/Số điện thoại/Tên đăng nhập"
+                      ></v-text-field>
+                      <v-text-field
+                        id="password"
+                        label="Mật khẩu *"
+                        :append-icon="showPass ? 'mdi-eye' : 'mdi-eye-off'"
+                        dense
+                        name="password"
+                        v-model="password"
+                        :type="showPass ? 'text' : 'password'"
+                        :error-messages="$store.state.login.password.errors"
+                        outlined
+                        @click:append="showPass = !showPass"
+                      ></v-text-field>
+                      <div class="d-flex justify-center">
+                        <v-btn
+                          color="primary"
+                          type="submit"
+                          @click="LogIn"
+                          :loading="$wait.is('logging')"
+                          block
+                          depressed
+                          >Đăng nhập</v-btn
                         >
-                        <v-text-field
-                          outlined
-                          dense
-                          v-model="username"
-                          :error-messages="$store.state.login.username.errors"
-                          label="Email/Số điện thoại/Tên đăng nhập"
-                        ></v-text-field>
-                        <v-text-field
-                          id="password"
-                          label="Mật khẩu *"
-                          :append-icon="showPass ? 'mdi-eye' : 'mdi-eye-off'"
-                          dense
-                          name="password"
-                          v-model="password"
-                          :type="showPass ? 'text' : 'password'"
-                          :error-messages="$store.state.login.password.errors"
-                          outlined
-                          @click:append="showPass = !showPass"
-                        ></v-text-field>
-                        <div class="d-flex justify-center">
-                          <v-btn
-                            color="primary"
-                            type="submit"
-                            :loading="$wait.is('logging')"
-                            block
-                            depressed
-                            >Đăng nhập</v-btn
-                          >
-                        </div>
-                        <v-row>
-                          <v-col cols="6">
-                            <a href="">Quên mật khẩu</a>
-                          </v-col>
-                          <v-col cols="6" align="end">
-                            <a href="">Đăng nhập với SMS</a>
-                          </v-col>
-                          <v-col cols="5"><v-divider></v-divider></v-col>
-                          <v-col
-                            cols="2"
-                            align="center"
-                            style="opacity: 0.5;"
-                            class="px-0 pt-0"
-                            >Hoặc</v-col
-                          >
-                          <v-col cols="5"><v-divider></v-divider></v-col>
-                          <v-col cols="4"></v-col>
-                          <v-col cols="4"> </v-col>
-                          <v-col cols="4"> </v-col>
-                          <v-col cols="12" style="opacity: 0.5; " align="center"
-                            >Bạn mới biết đến Shopee?</v-col
-                          >
-                        </v-row>
-                      </form>
-                    </v-container>
+                      </div>
+                      <v-row>
+                        <v-col cols="6">
+                          <a href="">Quên mật khẩu</a>
+                        </v-col>
+                        <v-col cols="6" align="end">
+                          <a href="">Đăng nhập với SMS</a>
+                        </v-col>
+                        <v-col cols="5"><v-divider></v-divider></v-col>
+                        <v-col
+                          cols="2"
+                          align="center"
+                          style="opacity: 0.5;"
+                          class="px-0 pt-0"
+                          >Hoặc</v-col
+                        >
+                        <v-col cols="5"><v-divider></v-divider></v-col>
+                        <v-col cols="4"></v-col>
+                        <v-col cols="4"> </v-col>
+                        <v-col cols="4"> </v-col>
+                        <v-col cols="12" style="opacity: 0.5; " align="center"
+                          >Bạn mới biết đến Shopee?</v-col
+                        >
+                      </v-row>
+                    </form>
                   </v-col>
                 </v-row>
               </v-card>
@@ -182,6 +181,9 @@ export default {
   }),
 
   methods: {
+    LogIn() {
+      this.$router.push('/')
+    },
     submit() {
       this.$wait.start('logging')
       setTimeout(() => {
@@ -210,12 +212,15 @@ export default {
   }
 }
 </script>
-<style lang="scss" scoped>
+<style lang="scss">
 .body-login {
   background-color: #ee4d2d;
 }
 a {
   text-decoration: none;
   color: #707070;
+}
+.login {
+  margin-top: -127px;
 }
 </style>

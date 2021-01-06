@@ -72,7 +72,7 @@ export default {
    */
   axios: {
     // baseURL: 'https://api.gamehit.vn/api/cms/'
-    baseURL: 'http://103.147.34.20:10102/cms/api/'
+    baseURL: 'http://192.168.1.83:8080'
   },
   wait: { useVuex: true },
   /*
