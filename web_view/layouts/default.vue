@@ -74,6 +74,64 @@
         <nuxt />
       </v-container>
     </v-main>
+    <v-footer dark padless>
+      <v-col cols="12" class="login-footer">
+        <v-row class="body-2" style=" color: #707070;">
+          <v-col cols="2" class="px-0"></v-col>
+          <v-col cols="8" class="pl-0 d-flex">
+            <div>
+              <div class="pr-2 pb-4">CHĂM SÓC KHÁCH HÀNG</div>
+              <div class="caption">
+                <div class="pb-2"><a href="">Trung Tâm trợ Giúp</a></div>
+                <div class="pb-2"><a href="">Shopee Blog</a></div>
+                <div class="pb-2"><a href="">Hướng Dẫn Mua Hàng</a></div>
+                <div class="pb-2"><a href="">Hướng Dẫn Bán Hàng</a></div>
+                <div class="pb-2"><a href="">Thanh Toán</a></div>
+                <div class="pb-2"><a href="">Shopee Xu</a></div>
+                <div class="pb-2"><a href="">Vận Chuyển</a></div>
+                <div class="pb-2"><a href="">Trả Hàng & Hoàn Tiền</a></div>
+                <div class="pb-2"><a href="">Chăm Sóc Khách Hàng</a></div>
+                <div class="pb-2"><a href=""> Chính Sách Bảo Hành</a></div>
+              </div>
+            </div>
+            <div class="pl-6">
+              <div class="pr-2 pb-4">VỀ SHOPEE</div>
+              <div class="caption">
+                <div class="pb-2">
+                  <a href="">Giới Thiệu Về Shopee Việt Nam</a>
+                </div>
+                <div class="pb-2"><a href="">Tuyển Dụng</a></div>
+                <div class="pb-2"><a href="">Điều Khoản Shopee</a></div>
+                <div class="pb-2"><a href="">Chính Sách Bảo Mật</a></div>
+                <div class="pb-2"><a href="">Chính Hãng</a></div>
+                <div class="pb-2"><a href="">Kênh Người Bán</a></div>
+                <div class="pb-2"><a href="">Flash Sales</a></div>
+                <div class="pb-2">
+                  <a href="">Chương Trình Tiếp Thị Liên Kết Shopee</a>
+                </div>
+                <div class="pb-2"><a href="">Liên Hệ Với Truyền Thông</a></div>
+              </div>
+            </div>
+            <div class="pl-6">
+              <div class="pl-3 pb-3">THANH TOÁN</div>
+              <div><img src="image_2020_12_31T08_02_06_198Z.png" alt="" /></div>
+              <div class="pl-3 pb-3">ĐƠN VỊ VẬN CHUYỂN</div>
+              <div><img src="image_2020_12_31T08_02_15_182Z.png" alt="" /></div>
+            </div>
+            <div class="pl-6">
+              <div class=" pb-3">THEO DÕI CHÚNG TÔI TRÊN</div>
+              <div class="pb-2">Facebook</div>
+              <div class="pb-2">Instagram</div>
+              <div class="pb-2">LinkedIn</div>
+            </div>
+            <div class="pl-6">
+              <div class=" pb-3">TẢI ỨNG DỤNG SHOPEE NGAY THÔI</div>
+              <div><img src="image_2020_12_31T08_02_28_720Z.png" alt="" /></div>
+            </div>
+          </v-col>
+        </v-row>
+      </v-col>
+    </v-footer>
   </v-app>
 </template>
 
@@ -322,5 +380,12 @@ export default {
 
 .v-list-item--active {
   background-color: white;
+}
+a {
+  text-decoration: none;
+  color: #707070;
+}
+footer.v-footer.v-sheet.theme--dark.v-footer--padless {
+  background-color: #f5f5f5;
 }
 </style>

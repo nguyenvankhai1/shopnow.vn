@@ -83,6 +83,33 @@
         </v-col>
       </v-row>
     </v-card>
+    <div class="mt-4">
+      <v-card flat>
+        <v-row class="pl-3 pt-3">
+          <v-col cols="12">
+            <div class="headline">CHI TIẾT SẢN PHẨM</div>
+          </v-col>
+          <v-col clos="12">
+            <div class="d-flex pb-2 ">
+              <div class="pr-3 color-bl">Danh mục:</div>
+              <div>Shop > Thời Trang Nam > Áo sơ mi > Dài tay</div>
+            </div>
+            <div class="d-flex py-2">
+              <div class="pr-3 color-bl">Danh mục:</div>
+              <div>Shop > Thời Trang Nam > Áo sơ mi > Dài tay</div>
+            </div>
+            <div class="d-flex py-2">
+              <div class="pr-3 color-bl">Danh mục:</div>
+              <div>Shop > Thời Trang Nam > Áo sơ mi > Dài tay</div>
+            </div>
+            <div class="d-flex py-2">
+              <div class="pr-3 color-bl">Danh mục:</div>
+              <div>Shop > Thời Trang Nam > Áo sơ mi > Dài tay</div>
+            </div>
+          </v-col>
+        </v-row>
+      </v-card>
+    </div>
   </div>
 </template>
 
@@ -140,6 +167,9 @@ export default {
   }
   .color-text {
     color: #ee4d2d;
+  }
+  .color-bl {
+    color: rgba(0, 0, 0, 0.4);
   }
   .cardProduct:hover {
     border: 1px solid #ee4d2d !important;
