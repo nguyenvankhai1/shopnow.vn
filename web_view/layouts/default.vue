@@ -38,7 +38,9 @@
             <span @click="logIn">Đăng nhập</span>
           </v-col>
           <v-col cols="2" class="py-0">
-            <img src="fashion_trang.png" width="140" />
+            <nuxt-link to="/">
+              <img src="fashion_trang.png" width="140" />
+            </nuxt-link>
           </v-col>
           <v-col cols="8" class="pb-0">
             <v-text-field
@@ -385,7 +387,7 @@ a {
   text-decoration: none;
   color: #707070;
 }
-footer.v-footer.v-sheet.theme--dark.v-footer--padless {
-  background-color: #f5f5f5;
-}
+// footer.v-footer.v-sheet.theme--dark.v-footer--padless {
+//   background-color: #f5f5f5;
+// }
 </style>
