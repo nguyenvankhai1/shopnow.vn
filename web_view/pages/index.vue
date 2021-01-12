@@ -82,12 +82,15 @@
           </div>
         </div>
       </v-col>
+      <v-col cols="10">
+        <productComponents></productComponents>
+      </v-col>
     </v-row>
   </div>
 </template>
 
 <script>
-import Cookies from 'js-cookie'
+import productComponents from '~/components/productComponents/product'
 export default {
   data() {
     return {
@@ -155,7 +158,9 @@ export default {
       ]
     }
   },
-
+  components: {
+    productComponents
+  },
   computed: {},
 
   methods: {}
