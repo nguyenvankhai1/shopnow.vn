@@ -17,7 +17,7 @@
                   class="ma-4 "
                   style="height: 83px ; width: 80px"
                   @click="toggle"
-                  @mousemove="demo(n)"
+                  @mousemove="HoverImg(n)"
                 >
                   <v-row class="fill-height" align="center" justify="center">
                     <v-img height="100" class="cardProduct" :src="n"></v-img>
@@ -80,7 +80,13 @@
             >
               Thêm Vào Giỏ Hàng
             </v-btn>
-            <v-btn large class="white--text" depressed color="#F05D40">
+            <v-btn
+              large
+              class="white--text"
+              depressed
+              color="#F05D40"
+              @click="buyNow"
+            >
               Mua Ngày
             </v-btn>
           </div>
@@ -156,13 +162,16 @@ export default {
     }
   },
   methods: {
+    buyNow() {
+      this.$router.push('/cart')
+    },
     addCart() {
       this.thongbao = true
       setTimeout(() => {
         this.thongbao = false
       }, 2000)
     },
-    demo(value) {
+    HoverImg(value) {
       if (this.src !== value) {
         this.src = value
       }

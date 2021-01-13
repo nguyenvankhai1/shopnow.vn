@@ -64,7 +64,7 @@
             </div>
           </v-col>
           <v-col cols="2">
-            <v-icon color="white" size="35" class="pb-1">
+            <v-icon color="white" size="35" class="pb-1" @click="buyNow">
               mdi-cart-variant
             </v-icon></v-col
           >
@@ -201,6 +201,9 @@ export default {
     }
   },
   methods: {
+    buyNow() {
+      this.$router.push('/cart')
+    },
     logIn() {
       // Object.keys(Cookies.get()).forEach(function(cookieName) {
       //   var neededAttributes = {
