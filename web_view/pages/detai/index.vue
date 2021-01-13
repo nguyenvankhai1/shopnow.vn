@@ -61,13 +61,47 @@
               Vận Chuyển Tới : Huyện Ba Vì ,Hà Nội
             </v-col>
             <v-col cols="2" class="pb-12 color-bl">Số lượng</v-col>
-            <v-col cols="2">
-              <v-text-field
-                v-model="last"
-                type="number"
-                dense
-                outlined
-              ></v-text-field>
+            <v-col cols="10 ">
+              <div
+                class="room d-flex"
+                style="
+              border: 1px solid #ececec;
+              border-radius: 3px;
+              max-width: 30%;
+            "
+              >
+                <v-btn
+                  small
+                  depressed
+                  style="
+                height: 40px;
+                border-right: 1px solid #ececec;
+                background: #fff;
+              "
+                  @click="minusPerson"
+                >
+                  <v-icon small>mdi-minus</v-icon>
+                </v-btn>
+                <v-text-field
+                  v-model="person"
+                  hide-details
+                  solo
+                  dense
+                  @input="validateNumber($event)"
+                ></v-text-field>
+                <v-btn
+                  small
+                  depressed
+                  style="
+                height: 40px;
+                border-left: 1px solid #ececec;
+                background: #fff;
+              "
+                  @click="plusPerson"
+                >
+                  <v-icon small>mdi-plus</v-icon>
+                </v-btn>
+              </div>
             </v-col>
           </v-row>
           <div>
@@ -148,6 +182,7 @@
 export default {
   data() {
     return {
+      person: 1,
       thongbao: false,
       last: 1,
       src:
@@ -162,6 +197,14 @@ export default {
     }
   },
   methods: {
+    plusPerson() {
+      this.person += 1
+    },
+    minusPerson() {
+      if (this.person !== 1) {
+        this.person -= 1
+      }
+    },
     buyNow() {
       this.$router.push('/cart')
     },
@@ -229,6 +272,16 @@ export default {
     background-color: black;
     color: aqua;
     text-align: center;
+  }
+  .v-input__slot {
+    box-shadow: 0 0 black !important;
+    height: 40px;
+    border-radius: 0 0 0 0;
+  }
+  .v-text-field__slot {
+    input {
+      text-align: center;
+    }
   }
 }
 </style>
