@@ -55,19 +55,29 @@
             99.000
           </div>
           <v-row>
-            <v-col cols="2">Vẫn Chuyển</v-col>
-            <v-col cols="10"></v-col>
-            <v-col cols="2">Size</v-col>
-            <v-col cols="10" class="pt-3 pl-0">
-              <v-btn outlined small color="#767676">
-                <div>XL (45-57kg)</div>
-              </v-btn></v-col
-            >
-            <v-col cols="2" class="pb-12">Số lượng</v-col>
-            <v-col cols="10"></v-col>
+            <v-col cols="2" class="color-bl">Vẫn Chuyển</v-col>
+            <v-col cols="10">
+              <v-icon>mdi-truck</v-icon>
+              Vận Chuyển Tới : Huyện Ba Vì ,Hà Nội
+            </v-col>
+            <v-col cols="2" class="pb-12 color-bl">Số lượng</v-col>
+            <v-col cols="2">
+              <v-text-field
+                v-model="last"
+                type="number"
+                dense
+                outlined
+              ></v-text-field>
+            </v-col>
           </v-row>
           <div>
-            <v-btn large style="border: 1px solid;" depressed color="#FFE6DE">
+            <v-btn
+              large
+              style="border: 1px solid;"
+              depressed
+              color="#FFE6DE"
+              @click="addCart"
+            >
               Thêm Vào Giỏ Hàng
             </v-btn>
             <v-btn large class="white--text" depressed color="#F05D40">
@@ -89,26 +99,41 @@
           <v-col cols="12">
             <div class="headline">CHI TIẾT SẢN PHẨM</div>
           </v-col>
-          <v-col clos="12">
-            <div class="d-flex pb-2 ">
-              <div class="pr-3 color-bl">Danh mục:</div>
-              <div>Shop > Thời Trang Nam > Áo sơ mi > Dài tay</div>
-            </div>
-            <div class="d-flex py-2">
-              <div class="pr-3 color-bl">Danh mục:</div>
-              <div>Shop > Thời Trang Nam > Áo sơ mi > Dài tay</div>
-            </div>
-            <div class="d-flex py-2">
-              <div class="pr-3 color-bl">Danh mục:</div>
-              <div>Shop > Thời Trang Nam > Áo sơ mi > Dài tay</div>
-            </div>
-            <div class="d-flex py-2">
-              <div class="pr-3 color-bl">Danh mục:</div>
-              <div>Shop > Thời Trang Nam > Áo sơ mi > Dài tay</div>
-            </div>
+          <v-col cols="2" class="pr-0 color-bl">Danh mục:</v-col>
+          <v-col cols="9" class="pl-0">
+            Shop > Thời Trang Nam > Áo sơ mi > Dài tay
+          </v-col>
+          <v-col cols="2" class="pr-0 color-bl">Thương hiệu:</v-col>
+          <v-col cols="9" class="pl-0">
+            No Brand
+          </v-col>
+          <v-col cols="2" class="pr-0 color-bl">Chất liệu:</v-col>
+          <v-col cols="9" class="pl-0">
+            Chất liệu khác
+          </v-col>
+          <v-col cols="2" class="pr-0 color-bl">Xuất Xứ:</v-col>
+          <v-col cols="9" class="pl-0">
+            Việt Nam
+          </v-col>
+          <v-col cols="2" class="pr-0 color-bl">Kho hàng:</v-col>
+          <v-col cols="9" class="pl-0">
+            11985
           </v-col>
         </v-row>
+        <v-col cols="12">
+          <div class="headline">MÔ TẢ SẢN PHẨM</div>
+        </v-col>
       </v-card>
+      <div v-if="thongbao">
+        <v-card class="thongbao headline">
+          <v-img
+            width="100"
+            style="margin-left: 130px;"
+            src="Tich-xanh.png"
+          ></v-img>
+          Sản phẩm đã được thêm vào giỏ hàng
+        </v-card>
+      </div>
     </div>
   </div>
 </template>
@@ -117,6 +142,8 @@
 export default {
   data() {
     return {
+      thongbao: false,
+      last: 1,
       src:
         'https://thicongnhanh24h.com.vn/wp-content/uploads/2020/06/lam-003-1024x755.jpg',
       model: null,
@@ -129,6 +156,12 @@ export default {
     }
   },
   methods: {
+    addCart() {
+      this.thongbao = true
+      setTimeout(() => {
+        this.thongbao = false
+      }, 2000)
+    },
     demo(value) {
       if (this.src !== value) {
         this.src = value
@@ -175,6 +208,18 @@ export default {
     border: 1px solid #ee4d2d !important;
     transition: all 0.5s;
     margin-top: -5px;
+  }
+  .thongbao {
+    position: fixed;
+    top: 345px;
+    height: 170px;
+    width: 354px;
+    left: 708px;
+    z-index: 10000;
+    opacity: 0.7;
+    background-color: black;
+    color: aqua;
+    text-align: center;
   }
 }
 </style>
