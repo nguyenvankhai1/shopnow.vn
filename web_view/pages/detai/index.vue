@@ -179,6 +179,7 @@
 </template>
 
 <script>
+import Cookies from 'js-cookie'
 export default {
   data() {
     return {
@@ -206,7 +207,11 @@ export default {
       }
     },
     buyNow() {
-      this.$router.push('/cart')
+      if (!this.$isNullOrEmpty(Cookies.get('token'))) {
+        this.$router.push('/cart')
+      } else {
+        this.$router.push('/login')
+      }
     },
     addCart() {
       this.thongbao = true

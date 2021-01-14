@@ -138,8 +138,8 @@ export const actions = {
         if (errorCode === Number(APIs.responses.OK.code)) {
           // Succeed
           this.$router.push('/')
-          Cookies.set('token', data.token)
-          Cookies.set('username', data.account_info.user_name)
+          Cookies.set('token', data.jwt)
+          Cookies.set('username', data.account_info.fullName)
         } else if (
           errorCode === APIs.login.responses.CREDENTIALS_INVALID.code
         ) {

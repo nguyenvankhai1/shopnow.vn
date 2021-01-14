@@ -25,7 +25,13 @@
             <v-icon color="white" size="17" class="pb-1"> mdi-facebook </v-icon>
             <v-icon color="white" size="17" class="pb-1"> mdi-camera </v-icon>
           </v-col>
-          <v-col cols="6" align="end" class="pt-0" style="margin-top: -9px;">
+          <v-col
+            cols="6"
+            align="end"
+            class="pt-0 d-flex"
+            style="margin-top: -9px;"
+          >
+            <v-spacer></v-spacer>
             <v-icon color="white" size="17" class="pb-1">
               mdi-bell-outline
             </v-icon>
@@ -34,8 +40,49 @@
               mdi-help-circle-outline
             </v-icon>
             <a href="" class="pr-4">Trợ giúp</a>
-            <a href="">Đăng Ký</a> |
-            <span @click="logIn">Đăng nhập</span>
+            <a v-if="checkLogIn()">Đăng Ký |</a>
+            <a v-if="checkLogIn()" class="pl-1" @click="logIn">Đăng nhập</a>
+            <span v-else>
+              <v-menu v-model="showMenu" absolute offset-y>
+                <template v-slot:activator="{ on, attrs }">
+                  <v-avatar size="25" class="avatarCusTom">
+                    <img
+                      src="https://phunugioi.com/wp-content/uploads/2020/03/anh-gai-xinh-cute-sieu-de-thuong.jpg"
+                      v-bind="attrs"
+                      v-on="on"
+                    />
+                  </v-avatar>
+                  Khải
+                </template>
+                <v-list dense class="py-0">
+                  <v-list-item-group>
+                    <nuxt-link class="nuxt-link text-decoration-none" to="/">
+                      <v-list-item class="pl-2">
+                        <v-list-item-icon class="mr-0 pt-1">
+                          <v-icon>mdi-account</v-icon>
+                        </v-list-item-icon>
+                        <v-list-item-content>
+                          <v-list-item-title class="pt-1">
+                            Tài khoản của tôi
+                          </v-list-item-title>
+                        </v-list-item-content>
+                      </v-list-item>
+                    </nuxt-link>
+                    <v-divider />
+                    <v-list-item class="pl-2" @click="open_logout = true">
+                      <v-list-item-icon class="mr-0">
+                        <v-icon color="#FF296B" size="18">mdi-logout</v-icon>
+                      </v-list-item-icon>
+                      <v-list-item-content>
+                        <v-list-item-title class="nuxt-link">
+                          Đăng xuất
+                        </v-list-item-title>
+                      </v-list-item-content>
+                    </v-list-item>
+                  </v-list-item-group>
+                </v-list>
+              </v-menu>
+            </span>
           </v-col>
           <v-col cols="2" class="py-0">
             <nuxt-link to="/">
@@ -71,6 +118,7 @@
         </v-row>
       </v-container>
     </v-app-bar>
+
     <v-main>
       <v-container style="width: 1200px;">
         <nuxt />
@@ -134,6 +182,12 @@
         </v-row>
       </v-col>
     </v-footer>
+    <yes-no-alert
+      :open="open_logout"
+      alert-msg="Bạn chắc chắn muốn đăng xuất không?"
+      @toggle="open_logout = !open_logout"
+      @OK="outside"
+    />
   </v-app>
 </template>
 
@@ -158,6 +212,8 @@ export default {
   },
   data() {
     return {
+      open_logout: false,
+      showMenu: false,
       clipped: true,
       drawer: true,
       fixed: false,
@@ -201,18 +257,28 @@ export default {
     }
   },
   methods: {
+    outside() {
+      this.$router.push('/login')
+      Object.keys(Cookies.get()).forEach(function(cookieName) {
+        const neededAttributes = {
+          // Here you pass the same attributes that were used when the cookie was created
+          // and are required when removing the cookie
+        }
+        Cookies.remove(cookieName, neededAttributes)
+      })
+    },
     buyNow() {
       this.$router.push('/cart')
     },
     logIn() {
-      // Object.keys(Cookies.get()).forEach(function(cookieName) {
-      //   var neededAttributes = {
-      //     // Here you pass the same attributes that were used when the cookie was created
-      //     // and are required when removing the cookie
-      //   }
-      //   Cookies.remove(cookieName, neededAttributes)
-      // })
       this.$router.push('/login')
+    },
+    checkLogIn() {
+      if (this.$isNullOrEmpty(Cookies.get('token'))) {
+        return true
+      } else {
+        return false
+      }
     },
     getMenuByParent(parent_id) {
       if (!this.$isServer) {
@@ -361,7 +427,10 @@ export default {
   .v-list-group__header {
   padding-left: 6px;
 }
-
+.avatarCusTom {
+  margin-top: -1px;
+  width: 27px !important;
+}
 .border-bot-mbf .v-toolbar__content {
   background-color: #fc5a31;
   height: 127px !important;
