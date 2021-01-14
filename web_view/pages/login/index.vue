@@ -181,9 +181,7 @@ export default {
   }),
 
   methods: {
-    LogIn() {
-      this.$router.push('/')
-    },
+    LogIn() {},
     submit() {
       this.$wait.start('logging')
       setTimeout(() => {

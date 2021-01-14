@@ -7,7 +7,7 @@ export default (context, inject) => {
   const channel = APIs.channel
   // context.app.$axios.setHeader('token_key', Cookies.get('token'))
   // LOGIN
-  inject('login', async ({ username, password, ip }) => {
+  inject('login', async ({ userName, password, ip }) => {
     let transid = uniqid()
     const response = await context.app.$axios({
       url: APIs.login.url,
@@ -18,7 +18,7 @@ export default (context, inject) => {
       data: {
         channel,
         transid,
-        username,
+        userName,
         password
       }
     })

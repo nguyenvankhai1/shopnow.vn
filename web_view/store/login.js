@@ -117,10 +117,10 @@ export const actions = {
   //   }
   // },
   Submit(vueContext, payload) {
-    const username = vueContext.state.username.value
+    const userName = vueContext.state.username.value
     const password = vueContext.state.password.value
     let ip = payload
-    if (username.indexOf(' ') >= 0) {
+    if (userName.indexOf(' ') >= 0) {
       vueContext.commit('usernameHasErrors', 'Tên người dùng không hợp lệ.')
       this.app.wait.end('logging')
       return
@@ -128,33 +128,18 @@ export const actions = {
     vueContext.commit('clearErrors')
     // Start calling API
     this.$login({
-      username,
+      userName,
       password,
       ip
     })
       .then(response => {
         let errorCode = response.data.error.code
         let data = response.data.data
-        if (errorCode === APIs.responses.OK.code) {
+        if (errorCode === Number(APIs.responses.OK.code)) {
           // Succeed
+          this.$router.push('/')
           Cookies.set('token', data.token)
           Cookies.set('username', data.account_info.user_name)
-          if (data.group_info !== null) {
-            Cookies.set('group', data.group_info.group_id)
-            vueContext.commit('unsetItem')
-            //goi action tu 1 ham khac
-            vueContext
-              .dispatch('app/GetRole', data.token, { root: true })
-              .then(() => {
-                this.$router.push('/')
-              })
-          } //loi nhom bi xoa het
-          else
-            vueContext
-              .dispatch('app/GetRole', data.token, { root: true })
-              .then(() => {
-                this.$router.push('/')
-              })
         } else if (
           errorCode === APIs.login.responses.CREDENTIALS_INVALID.code
         ) {
@@ -179,20 +164,9 @@ export const actions = {
         this.app.wait.end('logging')
       })
       .catch(errors => {
-        // Exceptions
         this.app.wait.end('logging')
         let response = errors.response
         let request = errors.request
-        console.log('Không thể kết nối đến server:', {
-          response,
-          request,
-          errors
-        })
-        this.$router.app.$notify({
-          group: 'login',
-          type: 'error',
-          text: 'Không thể kết nối đến server'
-        })
       })
   }
 }
