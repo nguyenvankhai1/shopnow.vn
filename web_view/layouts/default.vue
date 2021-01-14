@@ -52,7 +52,7 @@
                       v-on="on"
                     />
                   </v-avatar>
-                  Khải
+                  {{ username }}
                 </template>
                 <v-list dense class="py-0">
                   <v-list-item-group>
