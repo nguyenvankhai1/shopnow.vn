@@ -46,13 +46,9 @@
               <v-menu v-model="showMenu" absolute offset-y>
                 <template v-slot:activator="{ on, attrs }">
                   <v-avatar size="25" class="avatarCusTom">
-                    <img
-                      src="https://phunugioi.com/wp-content/uploads/2020/03/anh-gai-xinh-cute-sieu-de-thuong.jpg"
-                      v-bind="attrs"
-                      v-on="on"
-                    />
+                    <img :src="imgA" v-bind="attrs" v-on="on" />
                   </v-avatar>
-                  {{ username }}
+                  {{ username == 'null' ? '' : username }}
                 </template>
                 <v-list dense class="py-0">
                   <v-list-item-group>
@@ -208,6 +204,10 @@ export default {
         this.$store.dispatch('app/GetRole')
       }
       this.username = Cookies.get('username')
+      this.imgA =
+        Cookies.get('avatar') == 'null'
+          ? 'https://static2.yan.vn/YanNews/2167221/202003/dan-mang-du-trend-thiet-ke-avatar-du-kieu-day-mau-sac-tu-anh-mac-dinh-b0de2bad.jpg'
+          : Cookies.get('avatar')
     }
   },
   data() {
@@ -217,7 +217,7 @@ export default {
       clipped: true,
       drawer: true,
       fixed: false,
-
+      imgA: null,
       accountMenuItems: [],
       miniVariant: false,
       right: true,

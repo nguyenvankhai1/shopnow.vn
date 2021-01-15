@@ -157,6 +157,7 @@ export const actions = {
           this.$router.push('/')
           Cookies.set('token', data.jwt)
           Cookies.set('username', data.fullName)
+          Cookies.set('avatar', data.avatar)
         } else if (
           errorCode === APIs.login.responses.CREDENTIALS_INVALID.code
         ) {
