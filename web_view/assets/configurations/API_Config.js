@@ -12,7 +12,7 @@ const APIs = {
     },
     TOKEN_EXPIRE: {
       code: 2,
-      message: 'Token đã hết hạn'
+      message: 'Sai tài khoản mật khẩu'
     },
     '-1': {
       name: 'UNKNOWN_ERROR',
@@ -28,7 +28,7 @@ const APIs = {
     },
     '2': {
       name: 'TOKEN_EXPIRE',
-      message: 'Token đã hết hạn'
+      message: 'Sai tài khoản mật khẩu'
     },
     '3': {
       name: 'REQUEST_INVALID',
@@ -48,6 +48,10 @@ const APIs = {
     },
     '7': {
       name: 'MAIL_INVALID',
+      message: 'Email không hợp lệ'
+    },
+    '13': {
+      name: 'USER_NAME_EXISTED',
       message: 'Email không hợp lệ'
     },
     '999': {

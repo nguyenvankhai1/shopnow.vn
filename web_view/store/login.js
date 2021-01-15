@@ -62,7 +62,6 @@ export const mutations = {
 export const actions = {
   async registerAccount(vueContext, payload) {
     const transid = uniqid()
-    console.log(vueContext)
     const response = await this.$axios({
       url: vueContext.state.registerAccount.url,
       method: vueContext.state.registerAccount.method,

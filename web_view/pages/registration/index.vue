@@ -281,7 +281,7 @@ export default {
         this.passwordNewError = ['Không được để trống']
         this.$wait.end('logging')
       }
-      if (this.passwordNew !== password) {
+      if (this.passwordNew !== this.password) {
         hasErrors = true
         this.passwordNewError = ['Mật khẩu không khớp']
         this.$wait.end('logging')
@@ -298,11 +298,12 @@ export default {
           password: this.password
         })
         .then(res => {
-          if (res.error === 8) {
+          console.log(res, 'res')
+          if (res.data.error.code === 13) {
             this.usernameError = ['Email đã tồn tại']
           }
           this.$wait.end('logging')
-          if (res.error === 0) {
+          if (res.data.error.code === 0) {
             this.authentically = false
           }
         })
