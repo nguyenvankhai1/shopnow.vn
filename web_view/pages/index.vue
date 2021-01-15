@@ -162,8 +162,20 @@ export default {
     productComponents
   },
   computed: {},
-
-  methods: {}
+  mounted() {
+    this.ListProduct()
+  },
+  methods: {
+    ListProduct() {
+      console.log('dsdsd')
+      this.$store.dispatch('products/getProduct', {
+        productCategoryId: 1,
+        pageIndex: 1,
+        pageSize: 999,
+        orderBy: '1,2'
+      })
+    }
+  }
 }
 </script>
 

@@ -40,7 +40,7 @@
               mdi-help-circle-outline
             </v-icon>
             <a href="" class="pr-4">Trợ giúp</a>
-            <a v-if="checkLogIn()">Đăng Ký |</a>
+            <a v-if="checkLogIn()" @click="registration">Đăng Ký |</a>
             <a v-if="checkLogIn()" class="pl-1" @click="logIn">Đăng nhập</a>
             <span v-else>
               <v-menu v-model="showMenu" absolute offset-y>
@@ -266,6 +266,9 @@ export default {
         }
         Cookies.remove(cookieName, neededAttributes)
       })
+    },
+    registration() {
+      this.$router.push('/registration')
     },
     buyNow() {
       this.$router.push('/cart')

@@ -1,7 +1,11 @@
 import Cookies from 'js-cookie'
 import APIs from '~/assets/configurations/API_Config'
-
+import uniqid from 'uniqid'
 export const state = () => ({
+  registerAccount: {
+    url: '/shopnow/enduser/customer/signup',
+    method: 'POST'
+  },
   username: {
     errors: [],
     value: ''
@@ -56,6 +60,20 @@ export const mutations = {
 }
 
 export const actions = {
+  async registerAccount(vueContext, payload) {
+    const transid = uniqid()
+    console.log(vueContext)
+    const response = await this.$axios({
+      url: vueContext.state.registerAccount.url,
+      method: vueContext.state.registerAccount.method,
+      data: {
+        channel: APIs.channel,
+        transid,
+        ...payload
+      }
+    })
+    return response
+  },
   isAuthenticated(vueContext, req) {
     if (req) {
       let token

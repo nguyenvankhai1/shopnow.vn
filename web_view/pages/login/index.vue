@@ -4,10 +4,11 @@
       <v-col cols="6" align="center">
         <div>
           <img
-            style="margin-left: -228px;"
+            style="margin-left: -228px; cursor: pointer;"
             src="/fashion_cam.png"
             width="100"
             height="42"
+            @click="$router.push('/')"
           />
         </div>
       </v-col>
@@ -66,12 +67,6 @@
                         >
                       </div>
                       <v-row>
-                        <v-col cols="6">
-                          <a href="">Quên mật khẩu</a>
-                        </v-col>
-                        <v-col cols="6" align="end">
-                          <a href="">Đăng nhập với SMS</a>
-                        </v-col>
                         <v-col cols="5"><v-divider></v-divider></v-col>
                         <v-col
                           cols="2"
@@ -81,12 +76,21 @@
                           >Hoặc</v-col
                         >
                         <v-col cols="5"><v-divider></v-divider></v-col>
-                        <v-col cols="4"></v-col>
-                        <v-col cols="4"> </v-col>
-                        <v-col cols="4"> </v-col>
-                        <v-col cols="12" style="opacity: 0.5; " align="center"
-                          >Bạn mới biết đến Shopee?</v-col
-                        >
+
+                        <v-col
+                          cols="8"
+                          class="pr-0"
+                          style="opacity: 0.5; "
+                          align="end  "
+                          >Bạn mới biết đến Fashion?
+                        </v-col>
+                        <v-col cols="4" class="pl-0">
+                          <a
+                            @click="$router.push('/registration')"
+                            style="opacity: 1; "
+                            >Đăng Ký</a
+                          >
+                        </v-col>
                       </v-row>
                     </form>
                   </v-col>
