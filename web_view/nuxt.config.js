@@ -14,7 +14,7 @@ export default {
    ** Headers of the page
    */
   head: {
-    titleTemplate: '%s - ' + 'EVN Content Management System',
+    titleTemplate: 'Fashion Việt Nam | Mua và Bán',
     // titleTemplate: 'Gamehit Content Management System',
     title: process.env.npm_package_name || '',
     meta: [

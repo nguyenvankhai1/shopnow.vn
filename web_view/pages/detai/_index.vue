@@ -197,7 +197,15 @@ export default {
       ]
     }
   },
+  mounted() {
+    this.getDetail(this.$route.params.index)
+  },
   methods: {
+    getDetail(id) {
+      this.$store.dispatch('products/detailProduct', {
+        id: id
+      })
+    },
     plusPerson() {
       this.person += 1
     },

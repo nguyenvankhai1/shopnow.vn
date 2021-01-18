@@ -233,7 +233,8 @@ export default {
           otp: this.value
         })
         .then(res => {
-          if (res.error.code === 0) {
+          console.log(res)
+          if (res.data.error.code === 0) {
             this.$showSuccess(this, 'Đăng ký tài khoản thành công')
             this.$router.push('/login')
             this.$router.app.$notify({
@@ -241,11 +242,11 @@ export default {
               type: 'warn',
               text: 'Đăng ký tài khoản thành công'
             })
-          } else {
+          } else if (res.data.error.code === Number(APIs.responses.OK.code)) {
             this.$router.app.$notify({
               group: 'login',
               type: 'error',
-              text: 'Sai mã xác thực'
+              text: APIs.responses[errorCode].message
             })
           }
         })
@@ -298,13 +299,19 @@ export default {
           password: this.password
         })
         .then(res => {
-          console.log(res, 'res')
           if (res.data.error.code === 13) {
             this.usernameError = ['Email đã tồn tại']
           }
           this.$wait.end('logging')
           if (res.data.error.code === 0) {
             this.authentically = false
+          } else if (res.data.error.code === Number(APIs.responses.OK.code)) {
+            this.authentically = false
+            this.$router.app.$notify({
+              group: 'login',
+              type: 'error',
+              text: APIs.responses[errorCode].message
+            })
           }
         })
     }

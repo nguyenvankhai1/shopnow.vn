@@ -154,9 +154,10 @@ export const actions = {
         let data = response.data.data
         if (errorCode === Number(APIs.responses.OK.code)) {
           // Succeed
+          // console.log(data, 'data')
           this.$router.push('/')
           Cookies.set('token', data.jwt)
-          Cookies.set('username', data.fullName)
+          Cookies.set('username', data.username)
           Cookies.set('avatar', data.avatar)
         } else if (
           errorCode === APIs.login.responses.CREDENTIALS_INVALID.code

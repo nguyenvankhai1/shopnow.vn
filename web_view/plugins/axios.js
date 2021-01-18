@@ -17,7 +17,6 @@ export default function(context) {
         data: response.data
       }
     } else {
-      console.log(code, 'sdsdsdf')
       context.app.$showWarnNotify(
         context.app.router.app,
         APIs.responses[code].message

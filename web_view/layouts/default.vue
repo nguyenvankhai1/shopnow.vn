@@ -48,7 +48,11 @@
                   <v-avatar size="25" class="avatarCusTom">
                     <img :src="imgA" v-bind="attrs" v-on="on" />
                   </v-avatar>
-                  {{ username == 'null' ? '' : username }}
+                  {{
+                    username == 'null' || username == 'undefined'
+                      ? ''
+                      : username
+                  }}
                 </template>
                 <v-list dense class="py-0">
                   <v-list-item-group>
@@ -82,7 +86,7 @@
           </v-col>
           <v-col cols="2" class="py-0">
             <nuxt-link to="/">
-              <img src="fashion_trang.png" width="140" />
+              <img src="/fashion_trang.png" width="140" />
             </nuxt-link>
           </v-col>
           <v-col cols="8" class="pb-0">
@@ -160,9 +164,13 @@
             </div>
             <div class="pl-6">
               <div class="pl-3 pb-3">THANH TOÁN</div>
-              <div><img src="image_2020_12_31T08_02_06_198Z.png" alt="" /></div>
+              <div>
+                <img src="/image_2020_12_31T08_02_06_198Z.png" alt="" />
+              </div>
               <div class="pl-3 pb-3">ĐƠN VỊ VẬN CHUYỂN</div>
-              <div><img src="image_2020_12_31T08_02_15_182Z.png" alt="" /></div>
+              <div>
+                <img src="/image_2020_12_31T08_02_15_182Z.png" alt="" />
+              </div>
             </div>
             <div class="pl-6">
               <div class=" pb-3">THEO DÕI CHÚNG TÔI TRÊN</div>
@@ -172,7 +180,9 @@
             </div>
             <div class="pl-6">
               <div class=" pb-3">TẢI ỨNG DỤNG SHOPEE NGAY THÔI</div>
-              <div><img src="image_2020_12_31T08_02_28_720Z.png" alt="" /></div>
+              <div>
+                <img src="/image_2020_12_31T08_02_28_720Z.png" alt="" />
+              </div>
             </div>
           </v-col>
         </v-row>
@@ -205,7 +215,7 @@ export default {
       }
       this.username = Cookies.get('username')
       this.imgA =
-        Cookies.get('avatar') == 'null'
+        Cookies.get('avatar') == 'null' || Cookies.get('avatar') == 'undefined'
           ? 'https://static2.yan.vn/YanNews/2167221/202003/dan-mang-du-trend-thiet-ke-avatar-du-kieu-day-mau-sac-tu-anh-mac-dinh-b0de2bad.jpg'
           : Cookies.get('avatar')
     }

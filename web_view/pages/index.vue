@@ -1,31 +1,15 @@
 <template>
   <div>
     <v-row>
-      <v-col cols="2">
+      <v-col cols="3">
         <div class="font-weight-bold">
           BỘ LỌC TÌM KIẾM
         </div>
-        <div v-for="(item, idx) in items" :key="idx" class="body-2">
-          <div class="pt-3">
-            {{ item.name }}
-          </div>
-          <div
-            v-for="(checkbox, index) in item.value"
-            :key="index"
-            class="checkboxCategory"
-          >
-            <!-- :style="item.add ? 'display: none' : ''" -->
-            <v-checkbox
-              v-model="checkbox.valueCategory"
-              :label="checkbox.nameCategory"
-              hide-details
-              small
-            ></v-checkbox>
-          </div>
-          <div class="pt-4">
-            <v-divider></v-divider>
-          </div>
-        </div>
+        <v-treeview
+          selectable
+          item-disabled="locked"
+          :items="items"
+        ></v-treeview>
         <div>
           <div class="pt-3">
             Đánh Giá
@@ -82,8 +66,8 @@
           </div>
         </div>
       </v-col>
-      <v-col cols="10">
-        <productComponents></productComponents>
+      <v-col cols="9" style="margin-left: -71px;">
+        <productComponents :data="dataCategory"></productComponents>
       </v-col>
     </v-row>
   </div>
@@ -94,68 +78,8 @@ import productComponents from '~/components/productComponents/product'
 export default {
   data() {
     return {
-      items: [
-        {
-          add: false,
-          name: 'Theo Danh Mục',
-          value: [
-            {
-              valueCategory: true,
-              nameCategory: 'Áo nỉ(80k+)'
-            },
-            {
-              valueCategory: true,
-              nameCategory: 'Áo khoác nỉ(80k+)'
-            },
-            {
-              valueCategory: true,
-              nameCategory: 'Thời Trang Nữ(80k+)'
-            },
-            {
-              valueCategory: true,
-              nameCategory: 'Áo nỉ(80k+)'
-            },
-            {
-              valueCategory: true,
-              nameCategory: 'Áo nỉ(80k+)'
-            },
-            {
-              valueCategory: true,
-              nameCategory: 'Áo nỉ(80k+)'
-            },
-            {
-              valueCategory: true,
-              nameCategory: 'Áo nỉ(80k+)'
-            },
-            {
-              valueCategory: true,
-              nameCategory: 'Áo nỉ(80k+)'
-            }
-          ]
-        },
-        {
-          add: false,
-          name: 'Nơi Bán',
-          value: [
-            {
-              valueCategory: true,
-              nameCategory: 'Áo nỉ(80k+)'
-            },
-            {
-              valueCategory: true,
-              nameCategory: 'Áo nỉ(80k+)'
-            },
-            {
-              valueCategory: true,
-              nameCategory: 'Áo nỉ(80k+)'
-            },
-            {
-              valueCategory: true,
-              nameCategory: 'Áo nỉ(80k+)'
-            }
-          ]
-        }
-      ]
+      items: [],
+      dataCategory: []
     }
   },
   components: {
@@ -164,16 +88,25 @@ export default {
   computed: {},
   mounted() {
     this.ListProduct()
+    this.apiCategory()
   },
   methods: {
-    ListProduct() {
-      console.log('dsdsd')
-      this.$store.dispatch('products/getProduct', {
-        productCategoryId: 1,
-        pageIndex: 1,
-        pageSize: 999,
-        orderBy: '1,2'
+    apiCategory() {
+      this.$store.dispatch('products/productCategory', {}).then(res => {
+        this.items = res.data.data
       })
+    },
+    ListProduct() {
+      this.$store
+        .dispatch('products/getProduct', {
+          productCategoryId: 1,
+          pageIndex: 1,
+          pageSize: 999,
+          orderBy: '1,2'
+        })
+        .then(res => {
+          this.dataCategory = res.data.data.content
+        })
     }
   }
 }
