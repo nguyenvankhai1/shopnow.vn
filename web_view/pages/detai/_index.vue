@@ -88,6 +88,7 @@
                   hide-details
                   solo
                   dense
+                  :maxlength="String(data.quantity).length"
                   @input="validateNumber($event)"
                 ></v-text-field>
                 <v-btn
@@ -103,8 +104,11 @@
                   <v-icon small>mdi-plus</v-icon>
                 </v-btn>
               </div>
-              <div class="color-bl">
-                sản phẩm có sẵn
+              <div
+                class="color-bl"
+                style="position: absolute;top: 238px;right: 220px;"
+              >
+                {{ data.quantity }} sản phẩm có sẵn
               </div>
             </v-col>
           </v-row>
@@ -143,14 +147,14 @@
           <v-col cols="12">
             <div class="headline">CHI TIẾT SẢN PHẨM</div>
           </v-col>
-          <template v-for="(data, index) in data.attributeValueInfos">
+          <!-- <template v-for="(data, index) in data.attributeValueInfos">
             <v-col cols="2" class="pr-0 color-bl" :key="index"
               >{{ data.attributeName }}:</v-col
             >
             <v-col cols="9" :key="index" class="pl-0">
               {{ data.attributeValue }}
             </v-col>
-          </template>
+          </template> -->
         </v-row>
         <v-col cols="12">
           <div class="headline">MÔ TẢ SẢN PHẨM</div>
@@ -161,7 +165,7 @@
           <v-img
             width="100"
             style="margin-left: 130px;"
-            src="Tich-xanh.png"
+            src="/Tich-xanh.png"
           ></v-img>
           Sản phẩm đã được thêm vào giỏ hàng
         </v-card>
@@ -179,6 +183,7 @@ export default {
       person: 1,
       thongbao: false,
       last: 1,
+      maxlength: 4,
       src:
         'https://thicongnhanh24h.com.vn/wp-content/uploads/2020/06/lam-003-1024x755.jpg',
       model: null,
@@ -191,17 +196,16 @@ export default {
   methods: {
     getDetail(id) {
       this.$store.dispatch('products/detailProduct', { id: id }).then(res => {
-        // console.log(res, 'res')
+        console.log(String(res.data.data.quantity).length, 'res')
         this.data = res.data.data
-        this.imgs = res.data.data.otherThumbnails
+        // this.imgs = res.data.data.otherThumbnails
       })
     },
     plusPerson() {
-      if (this.person < 100) {
+      if (this.person < this.data.quantity) {
         this.person += 1
       } else {
-        console.log('dsdsd')
-        this.person = 100
+        this.person = this.data.quantity
       }
     },
     minusPerson() {
@@ -210,11 +214,10 @@ export default {
       }
     },
     validateNumber(value) {
-      if (value < 100) {
-        // this.person = Number(value)
+      if (value < this.data.quantity) {
+        this.person = Number(value)
       } else {
-        this.person = 100
-        console.log(this.person)
+        this.person = this.data.quantity
       }
     },
     buyNow() {
