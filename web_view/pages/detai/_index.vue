@@ -1,5 +1,5 @@
 <template>
-  <div class="detaiProduct">
+  <div class="detaiProduct" v-if="!$isNullOrEmpty(data)">
     <v-card flat>
       <v-row class="pl-3">
         <v-col cols="5">
@@ -29,11 +29,10 @@
         </v-col>
         <v-col cols="7">
           <div class="headline">
-            Áo thun nam tay dài mặc thu đông, giữ nhiệt, chất cotton co giãn, áo
-            dài tay dáng ôm cao cấp
+            {{ data.name }}
           </div>
           <div class="d-flex pt-3 color-text">
-            <ins class="">4.8</ins>
+            <ins class="">{{ data.voteScore }}</ins>
             <v-rating
               :value="5"
               class="ratinga pr-3"
@@ -42,26 +41,28 @@
               small
             ></v-rating>
             <div class="evaluate pr-3">
-              <ins class="black--text pl-3">24</ins>
+              <ins class="black--text pl-3">{{ data.voteNumber }}</ins>
               Đánh giá
             </div>
             <div class="evaluate d-flex">
-              <div class="black--text pl-3 pr-1 subtitle-2">112</div>
+              <div class="black--text pl-3 pr-1 subtitle-2">
+                {{ data.sellNumber }}
+              </div>
               <div>Đã bán</div>
             </div>
           </div>
           <div class="display-1 py-6 color-text d-flex">
             <div class="title">₫</div>
-            99.000
+            {{ $formatMoney({ amount: data.price }) }}
           </div>
           <v-row>
             <v-col cols="2" class="color-bl">Vẫn Chuyển</v-col>
             <v-col cols="10">
               <v-icon>mdi-truck</v-icon>
-              Vận Chuyển Tới : Huyện Ba Vì ,Hà Nội
+              Vận Chuyển Tới : {{ data.address }}
             </v-col>
             <v-col cols="2" class="pb-12 color-bl">Số lượng</v-col>
-            <v-col cols="10 ">
+            <v-col cols="10">
               <div
                 class="room d-flex"
                 style="
@@ -102,6 +103,9 @@
                   <v-icon small>mdi-plus</v-icon>
                 </v-btn>
               </div>
+              <div class="color-bl">
+                sản phẩm có sẵn
+              </div>
             </v-col>
           </v-row>
           <div>
@@ -139,26 +143,14 @@
           <v-col cols="12">
             <div class="headline">CHI TIẾT SẢN PHẨM</div>
           </v-col>
-          <v-col cols="2" class="pr-0 color-bl">Danh mục:</v-col>
-          <v-col cols="9" class="pl-0">
-            Shop > Thời Trang Nam > Áo sơ mi > Dài tay
-          </v-col>
-          <v-col cols="2" class="pr-0 color-bl">Thương hiệu:</v-col>
-          <v-col cols="9" class="pl-0">
-            No Brand
-          </v-col>
-          <v-col cols="2" class="pr-0 color-bl">Chất liệu:</v-col>
-          <v-col cols="9" class="pl-0">
-            Chất liệu khác
-          </v-col>
-          <v-col cols="2" class="pr-0 color-bl">Xuất Xứ:</v-col>
-          <v-col cols="9" class="pl-0">
-            Việt Nam
-          </v-col>
-          <v-col cols="2" class="pr-0 color-bl">Kho hàng:</v-col>
-          <v-col cols="9" class="pl-0">
-            11985
-          </v-col>
+          <template v-for="(data, index) in data.attributeValueInfos">
+            <v-col cols="2" class="pr-0 color-bl" :key="index"
+              >{{ data.attributeName }}:</v-col
+            >
+            <v-col cols="9" :key="index" class="pl-0">
+              {{ data.attributeValue }}
+            </v-col>
+          </template>
         </v-row>
         <v-col cols="12">
           <div class="headline">MÔ TẢ SẢN PHẨM</div>
@@ -183,18 +175,14 @@ import Cookies from 'js-cookie'
 export default {
   data() {
     return {
+      data: null,
       person: 1,
       thongbao: false,
       last: 1,
       src:
         'https://thicongnhanh24h.com.vn/wp-content/uploads/2020/06/lam-003-1024x755.jpg',
       model: null,
-      imgs: [
-        'https://thehekhoinghiep.com/wp-content/uploads/2018/07/Cach-chup-anh-quan-ao-ban-hang-online-dep-12.jpg',
-        'https://cf.shopee.vn/file/6090ee3c0ac0f296530478f8277e9685',
-        'https://chupanh.vn/wp-content/uploads/2018/01/chup-anh-quan-ao-3-1.jpg',
-        'https://vn-test-11.slatic.net/p/c50313205bc62651242efe79f2095224.jpg'
-      ]
+      imgs: []
     }
   },
   mounted() {
@@ -202,16 +190,31 @@ export default {
   },
   methods: {
     getDetail(id) {
-      this.$store.dispatch('products/detailProduct', {
-        id: id
+      this.$store.dispatch('products/detailProduct', { id: id }).then(res => {
+        // console.log(res, 'res')
+        this.data = res.data.data
+        this.imgs = res.data.data.otherThumbnails
       })
     },
     plusPerson() {
-      this.person += 1
+      if (this.person < 100) {
+        this.person += 1
+      } else {
+        console.log('dsdsd')
+        this.person = 100
+      }
     },
     minusPerson() {
       if (this.person !== 1) {
         this.person -= 1
+      }
+    },
+    validateNumber(value) {
+      if (value < 100) {
+        // this.person = Number(value)
+      } else {
+        this.person = 100
+        console.log(this.person)
       }
     },
     buyNow() {

@@ -4,7 +4,7 @@ import Cookies from 'js-cookie'
 
 export const state = () => ({
   detailProduct: {
-    url: '/shopnow/enduser/product',
+    url: '/shopnow/enduser/product/detail',
     method: 'GET'
   },
   getProduct: {
@@ -34,15 +34,16 @@ export const actions = {
     })
     return response
   },
+
   async detailProduct(vueContext, payload) {
     const transid = uniqid()
     const response = await this.$axios({
       url: vueContext.state.detailProduct.url,
       method: vueContext.state.detailProduct.method,
       params: {
-        channel: APIs.channel,
-        transid,
         ...payload
+        // channel: APIs.channel,
+        // transid
       }
     })
     return response

@@ -229,7 +229,7 @@ export default (context, inject) => {
   inject('formatMoney', payload => {
     try {
       var decimalCount = 0
-      var thousands = '.'
+      var thousands = ','
       var decimal = ','
 
       const negativeSign = payload.amount < 0 ? '-' : ''
