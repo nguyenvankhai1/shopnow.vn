@@ -4,7 +4,7 @@
       <v-col cols="3" class=" pt-0" v-for="(item, index) in data" :key="index">
         <v-card class="cardProduct" @click="detailProduct(item)">
           <v-img height="200" :src="item.thumbnail"></v-img>
-          <v-card-text class="pa-2 caption black--text">{{
+          <v-card-text class="pa-2 caption black--text" style="height: 57px;">{{
             item.name
           }}</v-card-text>
           <v-card-text class="px-2 py-0 caption black--text d-flex">

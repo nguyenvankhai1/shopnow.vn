@@ -68,6 +68,14 @@
       </v-col>
       <v-col cols="9" style="margin-left: -71px;">
         <productComponents :data="dataCategory"></productComponents>
+        <div class="text-center">
+          <v-pagination
+            v-model="page"
+            :length="1"
+            prev-icon="mdi-menu-left"
+            next-icon="mdi-menu-right"
+          ></v-pagination>
+        </div>
       </v-col>
     </v-row>
   </div>
@@ -78,6 +86,7 @@ import productComponents from '~/components/productComponents/product'
 export default {
   data() {
     return {
+      page: 1,
       items: [],
       dataCategory: []
     }
