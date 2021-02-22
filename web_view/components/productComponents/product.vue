@@ -5,7 +5,7 @@
         <v-card class="cardProduct" @click="detailProduct(item)">
           <v-img height="200" :src="item.thumbnail"></v-img>
           <v-card-text class="pa-2 caption black--text" style="height: 57px;">{{
-            item.name
+            text(item.name)
           }}</v-card-text>
           <v-card-text class="px-2 py-0 caption black--text d-flex">
             <div class="pr-1" style="margin-top:2px">₫</div>
@@ -62,6 +62,13 @@ export default {
     return { heart: true }
   },
   methods: {
+    text(value) {
+      if (value.length > 50) {
+        return value.slice(0, 50) + '...'
+      } else {
+        return value
+      }
+    },
     detailProduct(item) {
       this.$router.push(`/detai/${item.id}`)
     }

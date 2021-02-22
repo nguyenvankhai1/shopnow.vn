@@ -28,9 +28,7 @@
           </v-sheet>
         </v-col>
         <v-col cols="7">
-          <div class="headline">
-            {{ data.name }}
-          </div>
+          <div class="headline">{{ data.name }}</div>
           <div class="d-flex pt-3 color-text">
             <ins class="">{{ data.voteScore }}</ins>
             <v-rating
@@ -147,14 +145,14 @@
           <v-col cols="12">
             <div class="headline">CHI TIẾT SẢN PHẨM</div>
           </v-col>
-          <!-- <template v-for="(data, index) in data.attributeValueInfos">
+          <template v-for="(data, index) in data.attributeValueInfos">
             <v-col cols="2" class="pr-0 color-bl" :key="index"
               >{{ data.attributeName }}:</v-col
             >
             <v-col cols="9" :key="index" class="pl-0">
               {{ data.attributeValue }}
             </v-col>
-          </template> -->
+          </template>
         </v-row>
         <v-col cols="12">
           <div class="headline">MÔ TẢ SẢN PHẨM</div>
@@ -196,9 +194,9 @@ export default {
   methods: {
     getDetail(id) {
       this.$store.dispatch('products/detailProduct', { id: id }).then(res => {
-        console.log(String(res.data.data.quantity).length, 'res')
         this.data = res.data.data
-        // this.imgs = res.data.data.otherThumbnails
+        this.imgs = res.data.data.otherThumbnails
+        this.src = res.data.data.thumbnail
       })
     },
     plusPerson() {

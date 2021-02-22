@@ -54,6 +54,10 @@ const APIs = {
       name: 'USER_NAME_EXISTED',
       message: 'Email không hợp lệ'
     },
+    '99': {
+      name: 'UNKNOWN',
+      message: 'Lỗi không xác định'
+    },
     '999': {
       name: 'SYSTEM_ERROR',
       message: 'Lỗi hệ thống'
