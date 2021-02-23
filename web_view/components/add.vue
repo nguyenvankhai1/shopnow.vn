@@ -102,39 +102,6 @@ export default {
       this[field] = [...value]
       this[field + 'Errors'] = []
     },
-    // hành động
-    listAction() {
-      this.$store
-        .dispatch('bo_chi_tieu_ban_hang/getAction', {})
-        .then(response => {
-          // console.log(response, 'res')
-          if (!response.error) {
-            let data = []
-            for (let i = 0; i < response.data.data.items.length; i++) {
-              data.push({
-                value: response.data.data.items[i].id,
-                text: response.data.data.items[i].name
-              })
-            }
-            this.list_action = [...data]
-          }
-        })
-    },
-    // mã bộ chỉ tiêu
-    getNest() {
-      this.$store.dispatch('cham_soc/getListNest', {}).then(response => {
-        let data = []
-        // console.log(response, 'qqwqwqwqw')
-        for (let i = 0; i < response.data.data.items.length; i++) {
-          data.push({
-            value: response.data.data.items[i].code,
-            text: response.data.data.items[i].code
-          })
-        }
-        this.listnest = [...data]
-      })
-    },
-
     Targets() {
       this.$showSuccess(this, 'Đặt hàng thành công')
       this.$router.push('/')
