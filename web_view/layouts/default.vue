@@ -100,14 +100,14 @@
             >
             </v-text-field>
             <div class="list-sp">
-              <a href="" class="pr-3">Hoodie Name</a>
-              <a href="" class="pr-3">Sandal Nữ</a>
-              <a href="" class="pr-3">Dép Nam</a>
-              <a href="" class="pr-3">Balo Nữ</a>
-              <a href="" class="pr-3">Áo Nữ</a>
-              <a href="" class="pr-3">Quần Nam</a>
-              <a href="" class="pr-3">Tất Nữ</a>
-              <a href="">Váy Trắng</a>
+              <a
+                href=""
+                v-for="(item, index) in listName"
+                :key="index"
+                class="pr-3"
+              >
+                {{ item.name }}
+              </a>
             </div>
           </v-col>
           <v-col cols="2">
@@ -125,7 +125,111 @@
       </v-container>
     </v-main>
     <v-footer dark padless>
-      <v-col cols="12" class="login-footer">
+      <v-row
+        style="background-color: white ;border-top: 3px solid red; justify-content: center;"
+      >
+        <v-col
+          cols="8"
+          style="color: rgba(0,0,0,.54); font-size: .875rem;"
+          class="mt-3"
+        >
+          <strong>
+            Fashion - MUA SẮM VÀ BÁN HÀNG ONLINE ĐƠN GIẢN, NHANH CHÓNG VÀ AN
+            TOÀN
+            <br />
+            <br />
+          </strong>
+          <div style="font-size: .75rem;">
+            Nếu bạn đang tìm kiếm một trang web để mua và bán hàng trực tuyến
+            thì Fashion.vn là một sự lựa chọn hiệu quả dành cho bạn. Bản chất
+            của Fashion là một social ecommerce platform - nền tảng trang web
+            thương mại điện tử tích hợp mạng xã hội. Điều này cho phép người mua
+            và người bán hàng dễ dàng tương tác, trao đổi thông tin về sản phẩm
+            và chương trình khuyến mãi của shop. Nhờ nền tảng đó, việc mua bán
+            trên Fashion trở nên nhanh chóng và đơn giản hơn. Bạn có thể trò
+            chuyện trực tiếp với nhà bán hàng để hỏi trực tiếp về mặt hàng cần
+            mua. Còn nếu bạn muốn tìm mua những dòng sản phẩm chính hãng, uy
+            tín, Fashion Mall chính là sự lựa chọn lí tưởng dành cho bạn. Đến
+            với Fashion, cơ hội để trở thành một nhà bán hàng dễ dàng hơn bao
+            giờ hết. Chỉ với vài thao tác trên ứng dụng, bạn đã có thể đăng bán
+            ngay những sản phẩm của mình. Không những thế, các nhà bán hàng có
+            thể tùy chọn các tính năng “Shop tạm nghỉ” hoặc tự tạo riêng cho
+            mình một chương trình khuyến mãi để thu hút người mua với những sản
+            phẩm có mức giá hấp dẫn. Khi đăng nhập tại Fashion Kênh người bán,
+            bạn có thể dễ dàng phân loại sản phẩm, theo dõi đơn hàng, chăm sóc
+            khách hàng và cập nhập ngay các hoạt động của shop.
+            <br />
+            <br />
+          </div>
+          <strong>
+            TẢI ỨNG DỤNG Fashion NGAY ĐỂ MUA BÁN ONLINE MỌI LÚC, MỌI NƠI
+            <br />
+            <br />
+          </strong>
+          <div style="font-size: .75rem;">
+            Ưu điểm của ứng dụng Fashion là cho phép bạn mua và bán hàng mọi
+            lúc, mọi nơi. Bạn có thể tải ứng dụng Fashion cũng như đăng sản phẩm
+            bán hàng một cách nhanh chóng và tiện lợi. Ngoài ra, ứng dụng
+            Fashion còn có những ưu điểm sau: - Giao diện thân thiện, đơn giản,
+            dễ sử dụng. Bạn sẽ dễ dàng thấy được ngay những sản phẩm nổi bật
+            cũng như dễ dàng tìm đến các ô tìm kiếm, giỏ hàng hoặc tính năng
+            chat liền tay. - Ứng dụng tích hợp công nghệ quản lý đơn mua và bán
+            hàng tiện lợi trên cùng một tài khoản. Bạn sẽ vừa là người mua hàng,
+            vừa là người bán hàng rất linh hoạt, dễ dàng. - Cập nhập thông tin
+            khuyến mãi, Fashion flash sale nhanh chóng và liên tục. Tại Fashion,
+            bạn có thể lấy các mã khuyến mãi, mã giảm giá Fashion và mã miễn phí
+            vận chuyển toàn quốc. Bên cạnh đó, Fashion cũng sẽ có những chiến
+            dịch khuyến mãi lớn hằng năm như Fashion 9.9 sale, Fashion 10.10
+            sale, Fashion 11.11 sale, Fashion 12.12 sale, Fashion Tết Sale. Đây
+            là thời điểm để người mua hàng có thể nhanh tay chọn ngay cho mình
+            những mặt hàng ưa thích với mức giá giảm kỉ lục.
+            <br />
+            <br />
+          </div>
+          <strong>
+            MUA HÀNG CHÍNH HÃNG TỪ CÁC THƯƠNG HIỆU LỚN VỚI Fashion
+            <br />
+            <br />
+          </strong>
+          <div style="font-size: .75rem;">
+            Mua hàng trên Fashion luôn là một trải nghiệm ấn tượng. Dù bạn đang
+            có nhu cầu mua bất kỳ mặt hàng thời trang nam, thời trang nữ, đồng
+            hồ, điện thoại, nước rửa tay khô hay khẩu trang N95 thì Fashion cũng
+            sẽ đảm bảo cung cấp cho bạn những sản phẩm ưng ý. Bên cạnh đó,
+            Fashion cũng có sự tham gia của các thương hiệu hàng đầu thế giới ở
+            đa dạng nhiều lĩnh vực khác nhau. Trong đó có thể kể đến Samsung,
+            OPPO, Xiaomi, Innisfree, Unilever, P&G, Biti’s,...Các thương hiệu
+            này hiện cũng đã có cửa hàng chính thức trên Fashion Mall với hàng
+            trăm mặt hàng chính hãng, được cập nhập liên tục. Là một kênh bán
+            hàng uy tín, Fashion luôn cam kết mang lại cho khách hàng những trải
+            nghiệm mua sắm online giá rẻ, an toàn và tin cậy. Mọi thông tin về
+            người bán và người mua đều được bảo mật tuyệt đối. Các hoạt động
+            giao dịch thanh toán tại Fashion luôn được đảm bảo diễn ra nhanh
+            chóng, an toàn. Một vấn đề nữa khiến cho các khách hàng luôn quan
+            tâm đó chính là mua hàng trên Fashion có đảm bảo không. Fashion luôn
+            cam kết mọi sản phẩm trên Fashion, đặc biệt là Fashion Mall đều là
+            những sản phẩm chính hãng, đầy đủ tem nhãn, bảo hành từ nhà bán
+            hàng. Ngoài ra, Fashion bảo vệ người mua và người bán bằng cách giữ
+            số tiền giao dịch đến khi người mua xác nhận đồng ý với đơn hàng và
+            không có yêu cầu khiếu nại, trả hàng hay hoàn tiền nào. Thanh toán
+            sau đó sẽ được chuyển đến cho người bán. Đến với Fashion ngay hôm
+            nay để mua hàng online giá rẻ và trải nghiệm dịch vụ chăm sóc khách
+            hàng tuyệt vời tại đây. Đặc biệt khi mua sắm trên Fashion Mall, bạn
+            sẽ được miễn phí vận chuyển, giao hàng tận nơi và 7 ngày miễn phí
+            trả hàng. Ngoài ra, khách hàng có thể sử dụng Fashion Xu để đổi lấy
+            mã giảm giá có giá trị cao và voucher dịch vụ hấp dẫn. Tiếp đến là
+            Fashion Mum's Club với các ưu đãi độc quyền từ các thương hiệu lớn
+            như Enfa; Friso; Pampers...cho các mẹ bỉm sữa đăng ký làm thành
+            viên. Hãy truy cập ngay Fashion.vn hoặc tải ngay ứng dụng Fashion về
+            điện thoại ngay hôm nay!
+          </div>
+        </v-col>
+      </v-row>
+      <v-col
+        cols="12"
+        class="login-footer"
+        style="background-color: #F5F5F5 !important;"
+      >
         <v-row class="body-2" style=" color: #707070;">
           <v-col cols="2" class="px-0"></v-col>
           <v-col cols="8" class="pl-0 d-flex">
@@ -133,11 +237,11 @@
               <div class="pr-2 pb-4">CHĂM SÓC KHÁCH HÀNG</div>
               <div class="caption">
                 <div class="pb-2"><a href="">Trung Tâm trợ Giúp</a></div>
-                <div class="pb-2"><a href="">Shopee Blog</a></div>
+                <div class="pb-2"><a href="">Fashion Blog</a></div>
                 <div class="pb-2"><a href="">Hướng Dẫn Mua Hàng</a></div>
                 <div class="pb-2"><a href="">Hướng Dẫn Bán Hàng</a></div>
                 <div class="pb-2"><a href="">Thanh Toán</a></div>
-                <div class="pb-2"><a href="">Shopee Xu</a></div>
+                <div class="pb-2"><a href="">Fashion Xu</a></div>
                 <div class="pb-2"><a href="">Vận Chuyển</a></div>
                 <div class="pb-2"><a href="">Trả Hàng & Hoàn Tiền</a></div>
                 <div class="pb-2"><a href="">Chăm Sóc Khách Hàng</a></div>
@@ -145,19 +249,19 @@
               </div>
             </div>
             <div class="pl-6">
-              <div class="pr-2 pb-4">VỀ SHOPEE</div>
+              <div class="pr-2 pb-4">VỀ Fashion</div>
               <div class="caption">
                 <div class="pb-2">
-                  <a href="">Giới Thiệu Về Shopee Việt Nam</a>
+                  <a href="">Giới Thiệu Về Fashion Việt Nam</a>
                 </div>
                 <div class="pb-2"><a href="">Tuyển Dụng</a></div>
-                <div class="pb-2"><a href="">Điều Khoản Shopee</a></div>
+                <div class="pb-2"><a href="">Điều Khoản Fashion</a></div>
                 <div class="pb-2"><a href="">Chính Sách Bảo Mật</a></div>
                 <div class="pb-2"><a href="">Chính Hãng</a></div>
                 <div class="pb-2"><a href="">Kênh Người Bán</a></div>
                 <div class="pb-2"><a href="">Flash Sales</a></div>
                 <div class="pb-2">
-                  <a href="">Chương Trình Tiếp Thị Liên Kết Shopee</a>
+                  <a href="">Chương Trình Tiếp Thị Liên Kết Fashion</a>
                 </div>
                 <div class="pb-2"><a href="">Liên Hệ Với Truyền Thông</a></div>
               </div>
@@ -179,7 +283,7 @@
               <div class="pb-2">LinkedIn</div>
             </div>
             <div class="pl-6">
-              <div class=" pb-3">TẢI ỨNG DỤNG SHOPEE NGAY THÔI</div>
+              <div class=" pb-3">TẢI ỨNG DỤNG Fashion NGAY THÔI</div>
               <div>
                 <img src="/image_2020_12_31T08_02_28_720Z.png" alt="" />
               </div>
@@ -209,6 +313,8 @@ export default {
 
   created() {},
   mounted() {
+    this.productCategory()
+
     if (!this.$isServer) {
       if (!this.$store.state.app.getRoles) {
         this.$store.dispatch('app/GetRole')
@@ -222,6 +328,7 @@ export default {
   },
   data() {
     return {
+      listName: [],
       open_logout: false,
       showMenu: false,
       clipped: true,
@@ -260,7 +367,6 @@ export default {
     }
   },
   watch: {},
-
   computed: {
     topmenu() {
       return this.getMenuByParent(0)
@@ -279,6 +385,11 @@ export default {
     },
     registration() {
       this.$router.push('/registration')
+    },
+    productCategory() {
+      this.$store.dispatch('listProducts/onTop', {}).then(res => {
+        this.listName = res.data.data
+      })
     },
     buyNow() {
       this.$router.push('/cart')

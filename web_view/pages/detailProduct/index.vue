@@ -95,8 +95,8 @@ export default {
   data() {
     return {
       selection: [],
-      page: 1,
       items: [],
+      page: 1,
       pageSize: 10,
       pageSizeTotal: null,
       dataCategory: [],

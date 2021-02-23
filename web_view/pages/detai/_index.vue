@@ -4,7 +4,7 @@
       <v-row class="pl-3">
         <v-col cols="5">
           <v-img height="400" :src="src"></v-img>
-          <v-sheet class="mx-auto" elevation="0">
+          <v-sheet class="mx-auto" elevation="8" max-width="100">
             <v-slide-group v-model="model" mandatory show-arrows>
               <v-slide-item
                 v-for="n in imgs"

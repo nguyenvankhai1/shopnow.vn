@@ -3,7 +3,7 @@
     <v-row>
       <v-col cols="3" class=" pt-0" v-for="(item, index) in data" :key="index">
         <v-card class="cardProduct" @click="detailProduct(item)">
-          <v-img height="200" :src="item.thumbnail"></v-img>
+          <v-img height="200" :src="IMG(item.thumbnail)"></v-img>
           <v-card-text class="pa-2 caption black--text" style="height: 57px;">{{
             text(item.name)
           }}</v-card-text>
@@ -48,6 +48,7 @@
 </template>
 
 <script>
+import URL from '~/assets/configurations/Base_Url'
 export default {
   // mounted() {
   //   this.$store.dispatch('listProducts/get_list_Products', {})
@@ -62,6 +63,9 @@ export default {
     return { heart: true }
   },
   methods: {
+    IMG(value) {
+      return URL.url + '/shopnow/file/downloadFile/' + value
+    },
     text(value) {
       if (value.length > 50) {
         return value.slice(0, 50) + '...'

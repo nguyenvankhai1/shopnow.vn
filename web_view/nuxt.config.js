@@ -1,6 +1,7 @@
 import colors from 'vuetify/es5/util/colors'
 import en from './assets/locale/en'
 import vi from './assets/locale/vi'
+import URL from './assets/configurations/Base_Url'
 
 export default {
   mode: 'universal',
@@ -72,7 +73,7 @@ export default {
    */
   axios: {
     // baseURL: 'https://api.gamehit.vn/api/cms/'
-    baseURL: 'http://192.168.1.83:8081'
+    baseURL: URL.url
   },
   wait: { useVuex: true },
   /*

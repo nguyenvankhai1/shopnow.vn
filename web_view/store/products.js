@@ -4,19 +4,19 @@ import Cookies from 'js-cookie'
 
 export const state = () => ({
   detailProduct: {
-    url: '/shopnow/enduser/product/detail',
+    url: '/shopnow/product/detail',
     method: 'GET'
   },
   getProduct: {
-    url: '/shopnow/enduser/product',
+    url: '/shopnow/product',
     method: 'GET'
   },
   productCategory: {
-    url: '/shopnow/enduser/cms/productCategory',
+    url: '/shopnow/cms/productCategory',
     method: 'GET'
   },
   accuracyOTP: {
-    url: '/shopnow/enduser/customer/verify',
+    url: '/shopnow/customer/verify',
     method: 'POST'
   }
 })
