@@ -64,7 +64,7 @@
             <v-row>
               <v-col
                 cols="1"
-                v-for="(item, index) in this.category"
+                v-for="(item, index) in category"
                 :key="index"
                 class="text-center mx-2 hoverText"
               >
@@ -325,7 +325,6 @@ export default {
   },
   methods: {
     next(item) {
-      console.log(item, 'dsdsd')
       this.$router.push(`/detailProduct/${item.id}`)
     },
     ImgIcon(value) {

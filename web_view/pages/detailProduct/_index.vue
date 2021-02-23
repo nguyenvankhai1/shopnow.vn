@@ -97,6 +97,7 @@ import productComponents from '~/components/productComponents/product'
 export default {
   data() {
     return {
+      number: 0,
       selection: [],
       items: [],
       page: 1,
@@ -111,14 +112,36 @@ export default {
     productComponents
   },
   mounted() {
-    this.productCategoryId = Number(this.$route.params.index)
-    this.ListProduct()
+    if (this.$route.params.index.indexOf('timkiem=') == -1) {
+      this.productCategoryId = Number(this.$route.params.index)
+      // this.ListProduct()
+    } else {
+      this.searchTop(this.$route.params.index.slice(8))
+    }
+
     this.apiCategory()
   },
   methods: {
+    searchTop(value) {
+      this.dataCategory = []
+      this.$store
+        .dispatch('trangChu/search', {
+          keyword: value,
+          pageIndex: this.page,
+          pageSize: this.pageSize
+        })
+        .then(res => {
+          this.dataCategory = res.data.data.content
+          this.view = (this.dataCategory || []).length !== 0
+          this.pageSizeTotal = Math.ceil(res.data.data.total / this.pageSize)
+        })
+    },
     search(value) {
       this.productCategoryId = value.join()
-      this.ListProduct()
+      if (this.number >= 1) {
+        this.ListProduct()
+      }
+      this.number = +1
     },
     nextPage(value) {
       this.ListProduct()

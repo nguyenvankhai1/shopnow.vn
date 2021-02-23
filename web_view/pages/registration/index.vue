@@ -299,10 +299,10 @@ export default {
           password: this.password
         })
         .then(res => {
+          this.$wait.end('logging')
           if (res.data.error.code === 13) {
             this.usernameError = ['Email đã tồn tại']
           }
-          this.$wait.end('logging')
           if (res.data.error.code === 0) {
             this.authentically = false
           } else if (res.data.error.code === Number(APIs.responses.OK.code)) {

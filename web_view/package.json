@@ -30,7 +30,8 @@
     "vue-xlsx-table": "^1.2.8",
     "vuejs-logger": "^1.5.4",
     "vuelidate": "^0.7.5",
-    "vuetify": "^2.3.9"
+    "vuetify": "^2.3.9",
+    "vuex-persistedstate": "^4.0.0-beta.3"
   },
   "devDependencies": {
     "@nuxtjs/vuetify": "^1.11.2",

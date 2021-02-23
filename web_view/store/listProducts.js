@@ -4,7 +4,7 @@ import Cookies from 'js-cookie'
 
 export const state = () => ({
   attribute: {
-    url: 'shopnow/enduser/product',
+    url: 'shopnow/product',
     method: 'GET'
   },
   onTop: {

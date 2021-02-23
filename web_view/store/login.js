@@ -3,7 +3,7 @@ import APIs from '~/assets/configurations/API_Config'
 import uniqid from 'uniqid'
 export const state = () => ({
   registerAccount: {
-    url: '/shopnow/enduser/customer/signup',
+    url: '/shopnow/customer/signup',
     method: 'POST'
   },
   username: {

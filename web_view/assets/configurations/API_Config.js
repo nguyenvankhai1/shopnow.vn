@@ -236,7 +236,7 @@ const APIs = {
 
   // APIs
   login: {
-    url: 'shopnow/enduser/customer/login',
+    url: 'shopnow/customer/login',
     method: 'POST',
     responses: {
       CREDENTIALS_INVALID: {

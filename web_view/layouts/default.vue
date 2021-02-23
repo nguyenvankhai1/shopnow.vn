@@ -91,20 +91,34 @@
           </v-col>
           <v-col cols="8" class="pb-0">
             <v-text-field
-              append-icon="mdi-magnify"
               label="Tìm sản phẩm , thương hiệu và tên shop"
               solo
               hide-details
               flat
               dense
+              v-model="seach"
             >
             </v-text-field>
+
+            <v-btn
+              style="position: absolute;top: 45px;right: 561px;"
+              class="ma-2"
+              depressed
+              color="#FF6633"
+              dark
+              @click="timkiem"
+            >
+              <v-icon dark>
+                mdi-magnify
+              </v-icon>
+            </v-btn>
             <div class="list-sp">
               <a
                 href=""
                 v-for="(item, index) in listName"
                 :key="index"
                 class="pr-3"
+                @click="next(item)"
               >
                 {{ item.name }}
               </a>
@@ -335,6 +349,7 @@ export default {
       drawer: true,
       fixed: false,
       imgA: null,
+      seach: null,
       accountMenuItems: [],
       miniVariant: false,
       right: true,
@@ -373,6 +388,9 @@ export default {
     }
   },
   methods: {
+    timkiem() {
+      this.$router.push(`/detailProduct/timkiem=${this.seach}`)
+    },
     outside() {
       this.$router.push('/login')
       Object.keys(Cookies.get()).forEach(function(cookieName) {
@@ -517,6 +535,9 @@ export default {
           )
         }
       }
+    },
+    next(item) {
+      this.$router.push(`/detailProduct/${item.id}`)
     },
     //event input change
     change(value, field) {

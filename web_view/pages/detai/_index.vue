@@ -3,8 +3,8 @@
     <v-card flat>
       <v-row class="pl-3">
         <v-col cols="5">
-          <v-img height="400" :src="src"></v-img>
-          <v-sheet class="mx-auto" elevation="8" max-width="100">
+          <v-img height="400" :src="ImgIcon(src)"></v-img>
+          <v-sheet class="mx-auto" elevation="0">
             <v-slide-group v-model="model" mandatory show-arrows>
               <v-slide-item
                 v-for="n in imgs"
@@ -20,7 +20,11 @@
                   @mousemove="HoverImg(n)"
                 >
                   <v-row class="fill-height" align="center" justify="center">
-                    <v-img height="100" class="cardProduct" :src="n"></v-img>
+                    <v-img
+                      height="100"
+                      class="cardProduct"
+                      :src="ImgIcon(n)"
+                    ></v-img>
                   </v-row>
                 </div>
               </v-slide-item>
@@ -44,7 +48,7 @@
             </div>
             <div class="evaluate d-flex">
               <div class="black--text pl-3 pr-1 subtitle-2">
-                {{ data.sellNumber }}
+                {{ data.sellNumber }}21212
               </div>
               <div>Đã bán</div>
             </div>
@@ -55,10 +59,58 @@
           </div>
           <v-row>
             <v-col cols="2" class="color-bl">Vẫn Chuyển</v-col>
-            <v-col cols="10">
+
+            <v-col cols="3" class="pb-0">
               <v-icon>mdi-truck</v-icon>
-              Vận Chuyển Tới : {{ data.address }}
+              Vận Chuyển Tới :
             </v-col>
+            <v-col cols="3" class="pt-1 pb-0">
+              <v-select
+                label="Tỉnh/Thành Phố"
+                v-model="quan"
+                :items="listQuan"
+                :error-messages="quanError"
+                item-text="ProvinceName"
+                item-value="ProvinceID"
+                @change="apiHuyen(quan)"
+                solo
+                dense
+              ></v-select>
+            </v-col>
+            <v-col cols="2" class="pt-1 px-1 pb-0">
+              <v-select
+                label="Quận/Huyện"
+                :disabled="$isNullOrEmpty(quan)"
+                :error-messages="huyenError"
+                v-model="huyen"
+                item-text="DistrictName"
+                item-value="DistrictID"
+                @change="apiKhuvuc(huyen)"
+                :items="listHuyen"
+                solo
+                dense
+              ></v-select>
+            </v-col>
+            <v-col cols="2" class="pl-1 pt-1 pb-0">
+              <v-select
+                label="Khu vực"
+                v-model="khuvuc"
+                :error-messages="khuvucError"
+                :disabled="$isNullOrEmpty(huyen)"
+                item-text="WardName"
+                item-value="WardCode"
+                :items="listKhuVuc"
+                solo
+                dense
+              ></v-select>
+              <!-- @change="tinhPhi()" -->
+            </v-col>
+            <!-- <v-col cols="2" class="color-bl"></v-col>
+            <v-col cols="3" class="pt-0">
+              <v-icon>mdi-truck</v-icon>
+              Phí vận chuyển :
+            </v-col>
+            <v-col cols="7" class="pt-0">{{}} </v-col> -->
             <v-col cols="2" class="pb-12 color-bl">Số lượng</v-col>
             <v-col cols="10">
               <div
@@ -104,7 +156,7 @@
               </div>
               <div
                 class="color-bl"
-                style="position: absolute;top: 238px;right: 220px;"
+                style="position: absolute;top: 259px;right: 231px;"
               >
                 {{ data.quantity }} sản phẩm có sẵn
               </div>
@@ -144,19 +196,17 @@
         <v-row class="pl-3 pt-3">
           <v-col cols="12">
             <div class="headline">CHI TIẾT SẢN PHẨM</div>
+            <div v-html="data.introduce"></div>
           </v-col>
-          <template v-for="(data, index) in data.attributeValueInfos">
+          <!-- <template v-for="(data, index) in data.attributeValueInfos">
             <v-col cols="2" class="pr-0 color-bl" :key="index"
               >{{ data.attributeName }}:</v-col
             >
             <v-col cols="9" :key="index" class="pl-0">
               {{ data.attributeValue }}
             </v-col>
-          </template>
+          </template> -->
         </v-row>
-        <v-col cols="12">
-          <div class="headline">MÔ TẢ SẢN PHẨM</div>
-        </v-col>
       </v-card>
       <div v-if="thongbao">
         <v-card class="thongbao headline">
@@ -173,6 +223,7 @@
 </template>
 
 <script>
+import URL from '~/assets/configurations/Base_Url'
 import Cookies from 'js-cookie'
 export default {
   data() {
@@ -182,6 +233,16 @@ export default {
       thongbao: false,
       last: 1,
       maxlength: 4,
+      listQuan: [],
+      listHuyen: [],
+      listKhuVuc: [],
+      dataGiohang: [],
+      quanError: [],
+      huyenError: [],
+      khuvucError: [],
+      khuvuc: null,
+      huyen: null,
+      quan: null,
       src:
         'https://thicongnhanh24h.com.vn/wp-content/uploads/2020/06/lam-003-1024x755.jpg',
       model: null,
@@ -190,8 +251,62 @@ export default {
   },
   mounted() {
     this.getDetail(this.$route.params.index)
+    this.apiTinh()
+    // this.apiHuyen()
+    // this.apiKhuvuc()
   },
   methods: {
+    // tinhPhi() {
+    //   this.$store
+    //     .dispatch('trangChu/tinhPhi', {
+    //       service_type_id: 1,
+    //       insurance_value: this.data.price * this.person,
+    //       coupon: null,
+    //       from_district_id: 1486,
+    //       to_district_id: this.huyen,
+    //       to_ward_code: this.khuvuc,
+    //       height: 10,
+    //       length: 10,
+    //       weight: 1000,
+    //       width: 10,
+    //
+    //     })
+    //     .then(res => {
+    //       console.log(res, 'dsdsds')
+    //     })
+    // },
+    apiTinh() {
+      this.quanError = []
+      this.huyenError = []
+      this.khuvucError = []
+
+      this.$store.dispatch('trangChu/apiTinh').then(res => {
+        this.listQuan = res.data.data
+      })
+    },
+    apiHuyen(value) {
+      this.quanError = []
+      this.huyenError = []
+      this.khuvucError = []
+      this.$store
+        .dispatch('trangChu/apiHuyen', { provinceId: value })
+        .then(res => {
+          this.listHuyen = res.data.data
+        })
+    },
+    apiKhuvuc(value) {
+      this.quanError = []
+      this.huyenError = []
+      this.khuvucError = []
+      this.$store
+        .dispatch('trangChu/apiKhuvuc', { districtId: value })
+        .then(res => {
+          this.listKhuVuc = res.data.data
+        })
+    },
+    ImgIcon(value) {
+      return URL.url + '/shopnow/file/downloadFile/' + value
+    },
     getDetail(id) {
       this.$store.dispatch('products/detailProduct', { id: id }).then(res => {
         this.data = res.data.data
@@ -225,11 +340,62 @@ export default {
         this.$router.push('/login')
       }
     },
+
     addCart() {
-      this.thongbao = true
-      setTimeout(() => {
-        this.thongbao = false
-      }, 2000)
+      let hasErrors = false
+      if (this.$isNullOrEmpty(this.quan)) {
+        hasErrors = true
+        this.quanError = ['Không được để trống']
+      }
+      if (this.$isNullOrEmpty(this.huyen)) {
+        hasErrors = true
+        this.huyenError = ['Không được để trống']
+      }
+      if (this.$isNullOrEmpty(this.khuvuc)) {
+        hasErrors = true
+        this.khuvucError = ['Không được để trống']
+      }
+      if (!hasErrors) {
+        this.thongbao = true
+        setTimeout(() => {
+          this.thongbao = false
+        }, 2000)
+        if (this.$isNullOrEmpty(localStorage.getItem('giohang'))) {
+          this.dataGiohang.push({
+            id: this.$route.params.index,
+            name: this.data.name,
+            price: this.data.price,
+            avatar: this.ImgIcon(this.src),
+            tinh: this.quan,
+            huyen: this.huyen,
+            khuvuc: this.khuvuc,
+            person: this.person
+          })
+          localStorage.setItem('giohang', JSON.stringify(this.dataGiohang))
+        } else {
+          this.dataGiohang = JSON.parse(localStorage.getItem('giohang'))
+          let check = 0
+          for (let i = 0; i < this.dataGiohang.length; i++) {
+            if (this.dataGiohang[i].id === this.$route.params.index) {
+              this.dataGiohang[i].person += this.person
+              check += 1
+            }
+          }
+          if (check !== 0) {
+            this.dataGiohang.push({
+              id: this.$route.params.index,
+              name: this.data.name,
+              price: this.data.price,
+              avatar: this.ImgIcon(this.src),
+              tinh: this.quan,
+              huyen: this.huyen,
+              khuvuc: this.khuvuc,
+              person: this.person
+            })
+            localStorage.setItem('giohang', JSON.stringify(this.dataGiohang))
+          }
+        }
+      }
     },
     HoverImg(value) {
       if (this.src !== value) {
