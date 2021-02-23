@@ -104,29 +104,29 @@ export default {
     add
   },
   mounted() {
-    this.dataGiohang.push(
-      {
-        id: 1,
-        name: 'sdsjdhdsjhdjs',
-        price: 1,
-        avatar: 'dsd',
-        tinh: 23,
-        huyen: 54,
-        khuvuc: 64,
-        person: 99
-      },
-      {
-        id: 2,
-        name: 'sdsjdhdsjhdjs',
-        price: 2,
-        avatar: 'dsd',
-        tinh: 23,
-        huyen: 54,
-        khuvuc: 64,
-        person: 9999
-      }
-    )
-    localStorage.setItem('giohang', JSON.stringify(this.dataGiohang))
+    // this.dataGiohang.push(
+    //   {
+    //     id: 1,
+    //     name: 'sdsjdhdsjhdjs',
+    //     price: 1,
+    //     avatar: 'dsd',
+    //     tinh: 23,
+    //     huyen: 54,
+    //     khuvuc: 64,
+    //     person: 99
+    //   },
+    //   {
+    //     id: 2,
+    //     name: 'sdsjdhdsjhdjs',
+    //     price: 2,
+    //     avatar: 'dsd',
+    //     tinh: 23,
+    //     huyen: 54,
+    //     khuvuc: 64,
+    //     person: 9999
+    //   }
+    // )
+    // localStorage.setItem('giohang', JSON.stringify(this.dataGiohang))
     if (!this.$isNullOrEmpty(localStorage.getItem('giohang'))) {
       this.data = JSON.parse(localStorage.getItem('giohang'))
     }
