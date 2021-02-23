@@ -324,8 +324,9 @@ export default {
     this.home()
   },
   methods: {
-    next() {
-      this.$router.push('/detailProduct')
+    next(item) {
+      console.log(item, 'dsdsd')
+      this.$router.push(`/detailProduct/${item.id}`)
     },
     ImgIcon(value) {
       return URL.url + '/shopnow/file/downloadFile/' + value

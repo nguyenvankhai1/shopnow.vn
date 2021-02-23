@@ -73,7 +73,7 @@
           </div>
         </div>
       </v-col>
-      <v-col cols="9" style="margin-left: -71px;">
+      <v-col cols="9" style="margin-left: -71px;" v-if="view">
         <productComponents :data="dataCategory"></productComponents>
         <div class="text-center">
           <v-pagination
@@ -84,6 +84,9 @@
             @input="nextPage(page)"
           ></v-pagination>
         </div>
+      </v-col>
+      <v-col cols="9" style="margin-left: -71px;" class="text-center" v-else>
+        <div>Không tím thấy sản phẩm nào</div>
       </v-col>
     </v-row>
   </div>
@@ -98,6 +101,7 @@ export default {
       items: [],
       page: 1,
       pageSize: 10,
+      view: true,
       pageSizeTotal: null,
       dataCategory: [],
       productCategoryId: 1
@@ -107,6 +111,7 @@ export default {
     productComponents
   },
   mounted() {
+    this.productCategoryId = Number(this.$route.params.index)
     this.ListProduct()
     this.apiCategory()
   },
@@ -121,10 +126,10 @@ export default {
     apiCategory() {
       this.$store.dispatch('products/productCategory', {}).then(res => {
         this.items = res.data.data
+        this.selection.push(Number(this.$route.params.index))
       })
     },
     ListProduct() {
-      console.log(typeof this.productCategoryId, 'this.productCategoryId')
       this.$store
         .dispatch('products/getProduct', {
           productCategoryId: this.productCategoryId,
@@ -134,6 +139,7 @@ export default {
         })
         .then(res => {
           this.dataCategory = res.data.data.content
+          this.view = (this.dataCategory || []).length !== 0
           this.pageSizeTotal = Math.ceil(res.data.data.total / this.pageSize)
         })
     }
