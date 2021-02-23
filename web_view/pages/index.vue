@@ -17,16 +17,19 @@
           </v-carousel>
         </v-col>
         <v-col cols="4" class="pl-1">
-          <img
+          <v-img
             :src="$isNullOrEmpty(imgTopBaner) ? '' : imgTopBaner"
             alt=""
-            style="height: 116px;"
-          />
-          <img
+            max-height="116"
+            max-width="406"
+          ></v-img>
+          <v-img
+            class="mt-2"
             :src="$isNullOrEmpty(imgBottomBaner) ? '' : imgBottomBaner"
             alt=""
-            style="height: 116px;"
-          />
+            max-height="116"
+            max-width="406"
+          ></v-img>
         </v-col>
         <v-col cols="12">
           <v-card flat="">
@@ -65,7 +68,7 @@
                 :key="index"
                 class="text-center mx-2 hoverText"
               >
-                <div class="d-block">
+                <div class="d-block" @click="next(item)">
                   <img
                     :src="ImgIcon(item.avatar)"
                     alt=""
@@ -321,6 +324,9 @@ export default {
     this.home()
   },
   methods: {
+    next() {
+      this.$router.push('/detailProduct')
+    },
     ImgIcon(value) {
       return URL.url + '/shopnow/file/downloadFile/' + value
     },
